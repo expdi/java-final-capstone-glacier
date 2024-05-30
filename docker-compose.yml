@@ -1,0 +1,20 @@
+services:
+  track-api:
+    container_name: music-track-api
+    image: track-api
+    ports:
+      - 8080:8080
+    networks:
+      - music-app
+  pricing-api:
+    container_name: music-pricing-api
+    image: pricing-api
+    ports:
+      - 8081:8081
+    networks:
+      - music-app
+    expose:
+      - "8081"
+networks:
+  music-app:
+    external: false

@@ -1,0 +1,61 @@
+{
+  "tracks": [
+    {
+      "id": 1,
+      "title": "Too Sweet",
+      "album": "Unheard",
+      "issueDate": "2024-03-22",
+      "durationSeconds": 251,
+      "audioType": "MP3",
+      "artist": [
+        "Hozier"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Like That",
+      "album": "We Don't Trust You",
+      "issueDate": "2024-03-26",
+      "durationSeconds": 267,
+      "audioType": "MP3",
+      "artist": [
+        "Future",
+        "Metro Boomin",
+        "Kendrick Lamar"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Beautiful Things",
+      "album": "Fireworks & Rollerblades",
+      "issueDate": "2024-01-18",
+      "durationSeconds": 180,
+      "audioType": "MP3",
+      "artist": [
+        "Benson Boone"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Lose Control",
+      "album": "I've Tried Everything but Therapy (Part 1)",
+      "issueDate": "2023-06-23",
+      "durationSeconds": 210,
+      "audioType": "MP3",
+      "artist": [
+        "Teddy Swims"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Texas Hole 'Em",
+      "album": "Cowboy Carter",
+      "issueDate": "2024-02-11",
+      "durationSeconds": 239,
+      "audioType": "MP3",
+      "artist": [
+        "Beyonce"
+      ]
+    }
+  ]
+}
