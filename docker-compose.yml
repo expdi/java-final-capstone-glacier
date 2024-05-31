@@ -1,5 +1,8 @@
 services:
   track-api:
+    # run first: mvn install -DskipTests
+    build:
+      context: TrackApplication
     container_name: music-track-api
     image: track-api
     ports:
@@ -7,6 +10,9 @@ services:
     networks:
       - music-app
   pricing-api:
+    # run first: mvn install -DskipTests
+    build:
+      context: PricingApplication
     container_name: music-pricing-api
     image: pricing-api
     ports:
