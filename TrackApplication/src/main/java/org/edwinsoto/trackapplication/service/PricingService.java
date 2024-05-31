@@ -1,12 +1,9 @@
 package org.edwinsoto.trackapplication.service;
 
 import org.edwinsoto.trackapplication.model.Track;
-import org.edwinsoto.trackapplication.repository.PricingDAO;
+import org.edwinsoto.trackapplication.dao.PricingDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 public class PricingService {

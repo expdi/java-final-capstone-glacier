@@ -1,8 +1,7 @@
-package org.edwinsoto.trackapplication.repository;
+package org.edwinsoto.trackapplication.dao;
 
 import org.edwinsoto.trackapplication.model.Track;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.concurrent.ThreadLocalRandom;

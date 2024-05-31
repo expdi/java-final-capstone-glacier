@@ -1,4 +1,4 @@
-package org.edwinsoto.trackapplication.repository;
+package org.edwinsoto.trackapplication.dao;
 
 import jakarta.annotation.PostConstruct;
 import org.apache.commons.lang3.EnumUtils;

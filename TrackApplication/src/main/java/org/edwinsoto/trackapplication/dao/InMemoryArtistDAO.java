@@ -1,11 +1,7 @@
-package org.edwinsoto.trackapplication.repository;
+package org.edwinsoto.trackapplication.dao;
 
 import jakarta.annotation.PostConstruct;
 import org.edwinsoto.trackapplication.model.Artist;
-import org.edwinsoto.trackapplication.model.Track;
-import org.edwinsoto.trackapplication.service.ArtistService;
-import org.edwinsoto.trackapplication.service.TrackService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
