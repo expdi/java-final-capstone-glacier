@@ -9,13 +9,12 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 @Profile("jpa")
 @Service
 public class JpaArtistServiceImpl implements JpaArtistService {
 
-    private JpaArtistRepository jpaArtistRepository;
+    private final JpaArtistRepository jpaArtistRepository;
 
     public JpaArtistServiceImpl(JpaArtistRepository jpaArtistRepository) {
         this.jpaArtistRepository = jpaArtistRepository;
