@@ -1,7 +1,6 @@
-package org.edwinsoto.trackapplication.repository;
+package org.edwinsoto.trackapplication.dao;
 
 import org.edwinsoto.trackapplication.model.Artist;
-import org.edwinsoto.trackapplication.model.Track;
 
 import java.util.List;
 

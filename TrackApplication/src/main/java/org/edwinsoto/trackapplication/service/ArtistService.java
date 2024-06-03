@@ -1,7 +1,7 @@
 package org.edwinsoto.trackapplication.service;
 
 import org.edwinsoto.trackapplication.model.Artist;
-import org.edwinsoto.trackapplication.repository.InMemoryArtistDAO;
+import org.edwinsoto.trackapplication.dao.InMemoryArtistDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

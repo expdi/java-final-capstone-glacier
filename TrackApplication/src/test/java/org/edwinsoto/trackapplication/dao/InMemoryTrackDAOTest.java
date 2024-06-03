@@ -1,18 +1,13 @@
-package org.edwinsoto.trackapplication.repository;
+package org.edwinsoto.trackapplication.dao;
 
-import org.edwinsoto.trackapplication.model.ApprovedAudioFormats;
-import org.edwinsoto.trackapplication.model.Artist;
 import org.edwinsoto.trackapplication.model.Track;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

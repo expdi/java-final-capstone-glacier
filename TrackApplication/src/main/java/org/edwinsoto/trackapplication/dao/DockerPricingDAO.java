@@ -1,4 +1,4 @@
-package org.edwinsoto.trackapplication.repository;
+package org.edwinsoto.trackapplication.dao;
 
 import org.edwinsoto.trackapplication.model.Track;
 import org.springframework.context.annotation.Profile;
