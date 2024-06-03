@@ -6,6 +6,7 @@ import org.edwinsoto.trackapplication.service.JpaArtistService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -37,16 +38,24 @@ public class JpaArtistServiceImpl implements JpaArtistService {
 
     @Override
     public boolean isExists(Integer id) {
-        return false;
+        return jpaArtistRepository.existsById(id);
     }
 
     @Override
     public JpaArtist updateArtist(Integer id, JpaArtist jpaArtist) {
-        return null;
+        jpaArtist.setId(id);
+        jpaArtist.setModifiedData(LocalDate.now());
+        return jpaArtistRepository.findById(id).map(toBeUpdated ->{
+            Optional.ofNullable(jpaArtist.getName()).ifPresent(toBeUpdated::setName);
+            Optional.ofNullable(jpaArtist.getDateOfBirth()).ifPresent(toBeUpdated::setDateOfBirth);
+            Optional.ofNullable(jpaArtist.getTracks()).ifPresent(toBeUpdated::setTracks);
+            return jpaArtistRepository.save(toBeUpdated);
+        }).orElseThrow(()-> new RuntimeException("Artist does not exist"));
     }
 
     @Override
     public void delete(Integer id) {
+        jpaArtistRepository.deleteById(id);
 
     }
 }
