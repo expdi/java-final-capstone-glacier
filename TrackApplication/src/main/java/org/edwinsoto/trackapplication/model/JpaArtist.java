@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
+// TODO: add profile
 @Entity
 @Builder
 @AllArgsConstructor
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table("artists")
+@Table(name="artists")
 public class JpaArtist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
