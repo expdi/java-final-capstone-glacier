@@ -14,7 +14,11 @@ class PricingServiceTest {
 
     @Test
     void getPrice() {
-        Integer price = pricingService.getPrice(1);
+
+        pricingService.setLowerLimit(1);
+        pricingService.setUpperLimit(10);
+
+        Integer price = pricingService.getPrice(2);
         assertNotNull(price);
     }
 
