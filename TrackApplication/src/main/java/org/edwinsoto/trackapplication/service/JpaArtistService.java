@@ -15,4 +15,8 @@ public interface JpaArtistService {
 
     boolean isExists(Integer id);
 
+    JpaArtist updateArtist(Integer id, JpaArtist jpaArtist);
+
+    void delete(Integer id);
+
 }

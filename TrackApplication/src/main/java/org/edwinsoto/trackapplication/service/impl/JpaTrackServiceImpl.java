@@ -38,4 +38,14 @@ public class JpaTrackServiceImpl implements JpaTrackService {
     public boolean isExists(Integer id) {
         return false;
     }
+
+    @Override
+    public JpaTrack updateTrack(Integer id, JpaTrack jpaTrack) {
+        return null;
+    }
+
+    @Override
+    public void delete(Integer id) {
+
+    }
 }
