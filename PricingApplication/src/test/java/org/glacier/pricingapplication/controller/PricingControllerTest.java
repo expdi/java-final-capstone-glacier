@@ -26,4 +26,22 @@ class PricingControllerTest {
         ResponseEntity<Integer> response = pricingController.getPricing(1);
         assertTrue(response.getStatusCode().is2xxSuccessful());
     }
+
+    @Test
+    void testSetLimitsValid(){
+        ResponseEntity<?> response = pricingController.setLimitsPrice(50,58);
+        assertTrue(response.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    void testSetLimitsInvalid(){
+        ResponseEntity<?> response = pricingController.setLimitsPrice(100,10);
+        assertTrue(response.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    void testSetLimitsInvalidEqual(){
+        ResponseEntity<?> response = pricingController.setLimitsPrice(10,10);
+        assertTrue(response.getStatusCode().is4xxClientError());
+    }
 }
