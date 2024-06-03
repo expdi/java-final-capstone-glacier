@@ -1,6 +1,6 @@
 package org.edwinsoto.trackapplication.dao;
 
-import org.apache.tomcat.util.codec.binary.Base64;
+//import org.apache.tomcat.util.codec.binary.Base64;
 import org.edwinsoto.trackapplication.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -8,6 +8,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClient;
+
+import java.util.Base64;
 
 @Repository
 @Profile("prod")
@@ -25,17 +27,16 @@ public class NetworkPricingDAO implements PricingDAO {
         var endpoint = "api/v1/pricing";
         pricingURL = endpoint + "/id={id}";
 
-        String userName = env.getProperty("SPRING_ADMIN_USERNAME");
-        String password = env.getProperty("SPRING_ADMIN_PASSWORD");
+        //TODO: Obtaining values from environment variables
+        String userName = "regularUser";//env.getProperty("env.user.name");
+        String password = "password2";//env.getProperty("env.user.password");
         String plainCreds = userName + ":" + password;
-        byte[] plainCredsBytes = plainCreds.getBytes();
-        byte[] base64CredsBytes = Base64.encodeBase64(plainCredsBytes, true);
-        String base64Creds = new String(base64CredsBytes);
 
+        String valueToEncode = userName + ":" + password;
+        String base64Creds = Base64.getEncoder().encodeToString(valueToEncode.getBytes());
         this.restClient = RestClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader("Authorization", "Basic " + base64Creds)
-
                 .defaultHeader("Accept", "application/json")
                 .defaultHeader("Content-Type", "application/json")
                 .defaultHeader("Content-Type", userName)
@@ -52,6 +53,5 @@ public class NetworkPricingDAO implements PricingDAO {
 
         int pricing = result.getBody().intValue();
         track.setPrice(pricing);
-
     }
 }
