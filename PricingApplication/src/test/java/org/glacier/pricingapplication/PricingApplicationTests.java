@@ -1,4 +1,4 @@
-package org.edwinsoto.pricingapplication;
+package org.glacier.pricingapplication;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

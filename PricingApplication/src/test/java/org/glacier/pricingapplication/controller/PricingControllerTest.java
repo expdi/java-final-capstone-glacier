@@ -1,13 +1,11 @@
-package org.edwinsoto.pricingapplication.controller;
+package org.glacier.pricingapplication.controller;
 
-import org.edwinsoto.pricingapplication.service.PricingService;
+import org.glacier.pricingapplication.service.PricingService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
