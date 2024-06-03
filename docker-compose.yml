@@ -33,8 +33,6 @@ services:
       POSTGRES_PASSWORD: password
       PAGER: /usr/bin/less
       LESS: '-X -R -i'
-    volumes:
-      - ./data:/var/lib/postgresql/data
 networks:
   music-app:
     external: false
