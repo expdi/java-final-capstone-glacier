@@ -21,6 +21,17 @@ services:
       - music-app
     expose:
       - "8081"
+  db:
+    image: postgres
+    container_name: my-postgres-music
+    ports:
+      - "5434:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      PAGER: /usr/bin/less
+      LESS: '-X -R -i'
 networks:
   music-app:
     external: false
