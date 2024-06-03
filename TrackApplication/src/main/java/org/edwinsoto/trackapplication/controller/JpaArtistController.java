@@ -5,10 +5,9 @@ import org.edwinsoto.trackapplication.service.JpaArtistService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Profile("jpa")
 @RestController // presentation layer
@@ -25,5 +24,27 @@ public class JpaArtistController {
         return new ResponseEntity<>(jpaArtistService.save(artist), HttpStatus.CREATED);
     }
 
+    // TODO
+    @GetMapping
+    public List<JpaArtist> getArtists(){
+        return null;
+    }
+    // TODO
+    @GetMapping("/{id}")
+    public ResponseEntity<JpaArtist> getArtist(@PathVariable("id") Integer id){
+        return null;
+    }
+    // TODO
+    @PutMapping("/{id}")
+    public ResponseEntity<JpaArtist> updateArtist( @PathVariable("id") Integer id,
+                                    @RequestBody JpaArtist jpaArtist){
+        return null;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<JpaArtist> deleteArtist(@PathVariable("id") Integer id){
+        jpaArtistService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }
