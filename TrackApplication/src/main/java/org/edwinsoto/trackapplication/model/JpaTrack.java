@@ -2,13 +2,16 @@ package org.edwinsoto.trackapplication.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.context.annotation.Profile;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static jakarta.persistence.EnumType.STRING;
 
-// TODO: add profile
+
+@Profile("jpa")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -58,4 +61,7 @@ public class JpaTrack {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate modifiedDate;
+
+    @ManyToMany(mappedBy = "tracks")
+    private List<JpaArtist> artists;
 }

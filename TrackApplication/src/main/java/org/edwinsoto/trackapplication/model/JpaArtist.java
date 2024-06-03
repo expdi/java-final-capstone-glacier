@@ -3,11 +3,13 @@ package org.edwinsoto.trackapplication.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.context.annotation.Profile;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.List;
 
-// TODO: add profile
+@Profile("jpa")
 @Entity
 @Builder
 @AllArgsConstructor
@@ -33,4 +35,12 @@ public class JpaArtist {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate modifiedData;
 
+    @ManyToMany()
+    @JoinTable(
+            name = "artist_track",
+            joinColumns = @JoinColumn(name = "artist_id"),
+            inverseJoinColumns = @JoinColumn(name = "track_id")
+
+    )
+    private List<JpaTrack> tracks;
 }
