@@ -22,21 +22,6 @@ import static jakarta.persistence.EnumType.STRING;
 @Table(name="tracks")
 public class JpaTrack {
 
-    public enum Genre {
-        POP,
-        ROCK,
-        HIPHOP,
-        COUNTRY,
-        JAZZ
-    }
-
-    public enum AudioTypes {
-        MP3,
-        FLAC,
-        WAV,
-        OGG
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -51,11 +36,9 @@ public class JpaTrack {
 
     private Integer durationSec;
 
-    @Enumerated(STRING)
-    private AudioTypes audioType;
+    private String audioType;
 
-    @Enumerated(STRING)
-    private Genre genre;
+    private String genre;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate registerDate;
