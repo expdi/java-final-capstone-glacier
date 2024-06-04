@@ -9,12 +9,14 @@ import org.edwinsoto.trackapplication.model.Artist;
 import org.edwinsoto.trackapplication.model.Track;
 import org.edwinsoto.trackapplication.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
+@Profile("inmem")
 @RestController
 @RequestMapping("/api/v1/artist")
 public class ArtistController {

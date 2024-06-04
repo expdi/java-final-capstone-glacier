@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Profile("jpa")
 @RestController // presentation layer
-@RequestMapping("/api/tracks")
+@RequestMapping("/api/v1/tracks")
 public class JpaTrackController {
 
     private JpaTrackService jpaTrackService;
