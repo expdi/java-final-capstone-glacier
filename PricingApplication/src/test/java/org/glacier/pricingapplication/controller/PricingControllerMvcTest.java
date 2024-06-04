@@ -11,10 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.springframework.security.test.context.support.WithMockUser;
@@ -38,56 +38,26 @@ public class PricingControllerMvcTest {
         ResultActions actions = mockMvc.perform(builder).andExpect(status().isUnauthorized());
     }
 
-    //@Test
-    @Disabled("Test invalid role that doesn't exist")
     @ParameterizedTest()
-    @CsvSource(value = {"user,USER", "admin, ADMIN", "notREAL,fake"})
-    @WithMockUser()
-    public void testGetTrackPricingWithAdminCredentialsGive200(String name, String desiredRole) throws Exception {
-        var actions = mockMvc.perform(get("/api/v1/pricing/id={id}", 3).with(user(name).roles(desiredRole)));
-//                .andExpect(status().is2xxSuccessful());
-
-        System.out.println(actions);
-        assertNotNull(actions);
-
-        //assertNotNull(actions.getResponse().getContentAsString());
+    @CsvSource(value = {"user,USER,200", "admin, ADMIN, 200", "notREAL,fake, 403"})
+    public void testPricingServiceRolesForGET(String name, String desiredRole, int expectedCode) throws Exception {
+        var actions = mockMvc.perform(get("/api/v1/pricing/id={id}", 3).with(user(name).roles(desiredRole))).andReturn();
+        assertEquals(expectedCode, actions.getResponse().getStatus());
 
     }
 
-    @Test
-    @WithMockUser(roles = {"USER"})
-    public void testGetTrackPricingWithUserCredentialsGive200() throws Exception {
-        var actions = mockMvc.perform(get("/api/v1/pricing/id={id}", 3))
-                .andExpect(status().is2xxSuccessful()).andReturn();
-
-        assertNotNull(actions.getResponse().getContentAsString());
+    @ParameterizedTest()
+    @CsvSource(value = {"user,USER,403", "admin, ADMIN, 204", "notREAL,fake, 403"})
+    public void testPricingServiceRolesForPUT(String name, String desiredRole, int expectedCode) throws Exception {
+        var actions = mockMvc.perform(put("/api/v1/pricing/setLimits/{lowerLimit}/{upperLimit}", 1, 10).with(user(name).roles(desiredRole))).andReturn();
+        assertEquals(expectedCode, actions.getResponse().getStatus());
 
     }
 
     @Test
     @WithMockUser(roles = {"ADMIN"})
-    public void testGetTrackPricingWithAdminCredentialsGive200() throws Exception {
-        var actions = mockMvc.perform(get("/api/v1/pricing/id={id}", 3))
-                .andExpect(status().is2xxSuccessful()).andReturn();
-
-        assertNotNull(actions.getResponse().getContentAsString());
-
-    }
-
-    @Test
-    @WithMockUser(roles = {"FAKE"})
-    public void testGetTrackPricingWithInvalidRoleCredentialsGive200() throws Exception {
-        var actions = mockMvc.perform(get("/api/v1/pricing/id={id}", 3))
-                .andExpect(status().is2xxSuccessful()).andReturn();
-
-        assertNotNull(actions.getResponse().getContentAsString());
-
-    }
-
-
-    @Test
-    @WithMockUser(roles = {"USER"})
-    public void testGetLimitWithValidateGive200() throws Exception {
-        var actions = mockMvc.perform(get("/api/v1/pricing/setLimits/{lowerLimit}/{upperLimit}", 1, 10));
+    public void testSetLimitsInvalidRanges() throws Exception {
+        var actions = mockMvc.perform(put("/api/v1/pricing/setLimits/{lowerLimit}/{upperLimit}", 10, 1))
+                .andExpect(status().is4xxClientError());
     }
  }

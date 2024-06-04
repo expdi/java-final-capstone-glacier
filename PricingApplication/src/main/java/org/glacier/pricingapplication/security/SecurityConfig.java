@@ -34,8 +34,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain pricingTrackFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth ->
-                auth.requestMatchers(HttpMethod.GET, "/api/v1/pricing/**").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/pricing/**").hasRole("ADMIN").anyRequest().denyAll())
+                auth.requestMatchers(HttpMethod.GET, "/api/v1/pricing/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/pricing/**").hasRole("ADMIN")
+                        .anyRequest().denyAll())
                 .httpBasic(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
