@@ -37,22 +37,22 @@ public class PricingControllerClientTest {
 
     @PostConstruct
     public void init() {
-        var baseUrl = "http://localhost:" + port;
-        var endpoint = "api/v1/pricing";
-        pricingURL = endpoint + "/id={id}";
-
-        //TODO: Obtaining values from environment variables
-        String userName = "regularUser"; //env.getProperty("env.user.name");
-        String password = "password2"; //env.getProperty("env.user.password");
-
-        String valueToEncode = userName + ":" + password;
-        String base64Creds = Base64.getEncoder().encodeToString(valueToEncode.getBytes());
-        this.restClient = RestClient.builder()
-                .baseUrl(baseUrl)
-                .defaultHeader("Authorization", "Basic " + base64Creds)
-                .defaultHeader("Accept", "application/json")
-                .defaultHeader("Content-Type", "application/json")
-                .build();
+//        var baseUrl = "http://localhost:" + port;
+//        var endpoint = "api/v1/pricing";
+//        pricingURL = endpoint + "/id={id}";
+//
+//        //TODO: Obtaining values from environment variables
+//        String userName = "regularUser"; //env.getProperty("env.user.name");
+//        String password = "password2"; //env.getProperty("env.user.password");
+//
+//        String valueToEncode = userName + ":" + password;
+//        String base64Creds = Base64.getEncoder().encodeToString(valueToEncode.getBytes());
+//        this.restClient = RestClient.builder()
+//                .baseUrl(baseUrl)
+//                .defaultHeader("Authorization", "Basic " + base64Creds)
+//                .defaultHeader("Accept", "application/json")
+//                .defaultHeader("Content-Type", "application/json")
+//                .build();
     }
 
     @Test

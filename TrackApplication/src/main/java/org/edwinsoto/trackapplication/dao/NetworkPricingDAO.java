@@ -2,9 +2,8 @@ package org.edwinsoto.trackapplication.dao;
 
 //import org.apache.tomcat.util.codec.binary.Base64;
 import org.edwinsoto.trackapplication.model.Track;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClient;
@@ -19,33 +18,21 @@ public class NetworkPricingDAO implements PricingDAO {
 
     private String pricingURL;
 
-    @Autowired
-    private Environment env;
+    @Value("${env.user.name}")
+    private String userName;
+
+    @Value("${env.user.password}")
+    private String password;
 
     public NetworkPricingDAO() {
-        var baseUrl = "http://localhost:8081";
         var endpoint = "api/v1/pricing";
         pricingURL = endpoint + "/id={id}";
-
-        //TODO: Obtaining values from environment variables
-        String userName = "regularUser";//env.getProperty("env.user.name");
-        String password = "password2";//env.getProperty("env.user.password");
-        String plainCreds = userName + ":" + password;
-
-        String valueToEncode = userName + ":" + password;
-        String base64Creds = Base64.getEncoder().encodeToString(valueToEncode.getBytes());
-        this.restClient = RestClient.builder()
-                .baseUrl(baseUrl)
-                .defaultHeader("Authorization", "Basic " + base64Creds)
-                .defaultHeader("Accept", "application/json")
-                .defaultHeader("Content-Type", "application/json")
-                .defaultHeader("Content-Type", userName)
-                .defaultHeader("Content-Type", password)
-                .build();
     }
 
     @Override
     public void addPrice(Track track) {
+        setRestClient();
+
         ResponseEntity<Integer> result = restClient.get()
                 .uri(pricingURL, 1)
                 .retrieve()
@@ -53,5 +40,20 @@ public class NetworkPricingDAO implements PricingDAO {
 
         int pricing = result.getBody().intValue();
         track.setPrice(pricing);
+    }
+
+    private void setRestClient() {
+        if (this.restClient != null) {
+            return;
+        }
+        var baseUrl = "http://localhost:8081";
+        String valueToEncode = userName + ":" + password;
+        String base64Creds = Base64.getEncoder().encodeToString(valueToEncode.getBytes());
+        this.restClient = RestClient.builder()
+                .baseUrl(baseUrl)
+                .defaultHeader("Authorization", "Basic " + base64Creds)
+                .defaultHeader("Accept", "application/json")
+                .defaultHeader("Content-Type", "application/json")
+                .build();
     }
 }
