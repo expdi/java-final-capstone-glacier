@@ -1,26 +1,26 @@
 services:
-  track-api:
-    # run first: mvn install -DskipTests
-    build:
-      context: TrackApplication
-    container_name: music-track-api
-    image: track-api
-    ports:
-      - 8080:8080
-    networks:
-      - music-app
-  pricing-api:
-    # run first: mvn install -DskipTests
-    build:
-      context: PricingApplication
-    container_name: music-pricing-api
-    image: pricing-api
-    ports:
-      - 8081:8081
-    networks:
-      - music-app
-    expose:
-      - "8081"
+#  track-api:
+#    # run first: mvn install -DskipTests
+#    build:
+#      context: TrackApplication
+#    container_name: music-track-api
+#    image: track-api
+#    ports:
+#      - 8080:8080
+#    networks:
+#      - music-app
+#  pricing-api:
+#    # run first: mvn install -DskipTests
+#    build:
+#      context: PricingApplication
+#    container_name: music-pricing-api
+#    image: pricing-api
+#    ports:
+#      - 8081:8081
+#    networks:
+#      - music-app
+#    expose:
+#      - "8081"
   db:
     image: postgres
     container_name: my-postgres-music
@@ -28,10 +28,11 @@ services:
       - "5434:5432"
     restart: unless-stopped
     environment:
+      POSTGRES_DB: musicdb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       PAGER: /usr/bin/less
       LESS: '-X -R -i'
-networks:
-  music-app:
-    external: false
+#networks:
+#  music-app:
+#    external: false
