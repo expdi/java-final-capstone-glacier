@@ -43,7 +43,7 @@ public class JpaArtistServiceImpl implements JpaArtistService {
     @Override
     public JpaArtist updateArtist(Integer id, JpaArtist jpaArtist) {
         jpaArtist.setId(id);
-        jpaArtist.setModifiedData(LocalDate.now());
+        jpaArtist.setModifiedDate(LocalDate.now());
         return jpaArtistRepository.findById(id).map(toBeUpdated ->{
             Optional.ofNullable(jpaArtist.getName()).ifPresent(toBeUpdated::setName);
             Optional.ofNullable(jpaArtist.getDateOfBirth()).ifPresent(toBeUpdated::setDateOfBirth);

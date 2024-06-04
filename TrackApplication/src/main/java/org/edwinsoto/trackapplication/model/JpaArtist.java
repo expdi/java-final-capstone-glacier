@@ -33,7 +33,7 @@ public class JpaArtist {
     private LocalDate registerDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate modifiedData;
+    private LocalDate modifiedDate;
 
     @ManyToMany()
     @JoinTable(

@@ -25,8 +25,9 @@ public class JpaTrack {
     public enum Genre {
         POP,
         ROCK,
+        HIPHOP,
         COUNTRY,
-        LATIN
+        JAZZ
     }
 
     public enum AudioTypes {
