@@ -39,7 +39,7 @@ public class PricingControllerMvcTest {
     }
 
     @ParameterizedTest()
-    @CsvSource(value = {"user,USER,200", "admin, ADMIN, 200", "notREAL,fake, 403"})
+    @CsvSource(value = {"user, USER, 200", "admin, ADMIN, 200", "notREAL, fake, 403"})
     public void testPricingServiceRolesForGET(String name, String desiredRole, int expectedCode) throws Exception {
         var actions = mockMvc.perform(get("/api/v1/pricing/id={id}", 3).with(user(name).roles(desiredRole))).andReturn();
         assertEquals(expectedCode, actions.getResponse().getStatus());
@@ -47,17 +47,19 @@ public class PricingControllerMvcTest {
     }
 
     @ParameterizedTest()
-    @CsvSource(value = {"user,USER,403", "admin, ADMIN, 204", "notREAL,fake, 403"})
+    @CsvSource(value = {"user, USER, 403", "admin, ADMIN, 204", "notREAL, fake, 403"})
     public void testPricingServiceRolesForPUT(String name, String desiredRole, int expectedCode) throws Exception {
         var actions = mockMvc.perform(put("/api/v1/pricing/setLimits/{lowerLimit}/{upperLimit}", 1, 10).with(user(name).roles(desiredRole))).andReturn();
         assertEquals(expectedCode, actions.getResponse().getStatus());
 
     }
 
-    @Test
+    @ParameterizedTest()
     @WithMockUser(roles = {"ADMIN"})
-    public void testSetLimitsInvalidRanges() throws Exception {
-        var actions = mockMvc.perform(put("/api/v1/pricing/setLimits/{lowerLimit}/{upperLimit}", 10, 1))
+    @CsvSource(value = {"10, 1", "10, 10"})
+    public void testSetLimitsInvalidRanges(int lowerLimit, int upperLimit ) throws Exception {
+        var actions = mockMvc.perform(put("/api/v1/pricing/setLimits/{lowerLimit}/{upperLimit}", lowerLimit, upperLimit))
                 .andExpect(status().is4xxClientError());
     }
+
  }

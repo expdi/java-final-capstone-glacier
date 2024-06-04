@@ -37,7 +37,7 @@ class PricingServiceTest {
     @Test
     void voidTestSetUpperLimits() {
         Integer prevPrice = pricingService.getUpperLimit();
-        pricingService.setUpperLimit(10);
+        pricingService.setUpperLimit(20);
 
         Integer curPrice = pricingService.getUpperLimit();
 
