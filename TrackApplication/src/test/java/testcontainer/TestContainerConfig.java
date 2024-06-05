@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -12,7 +13,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-
+@ActiveProfiles("jpa")
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class TestContainerConfig {
@@ -23,7 +24,7 @@ public class TestContainerConfig {
             .withDatabaseName("musicdb")
             .withUsername("postgres")
             .withPassword("password")
-            .withInitScript("data/data.sql");
+            .withInitScript("data/data_schema.sql");
 
     @DynamicPropertySource
     static void initialize(DynamicPropertyRegistry registry) {

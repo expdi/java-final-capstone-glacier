@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-@Profile("inmem")
+@Profile({"inmem"})
 public class InMemoryArtistDAO implements ArtistDAO {
 
 
