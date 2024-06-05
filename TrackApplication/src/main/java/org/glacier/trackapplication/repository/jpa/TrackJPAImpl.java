@@ -26,7 +26,7 @@ public class TrackJPAImpl implements TrackDAO {
 
     @Override
     public List<Track> getAllTracks() {
-        return List.of();
+        return trackDAO.findAll();
     }
 
     @Override
@@ -35,39 +35,41 @@ public class TrackJPAImpl implements TrackDAO {
     }
 
     @Override
-    //TODO: Need to be fixed
     public List<Track> getTracksByMediaType(String mediaType) {
-        return List.of();
+        return trackDAO.findAllByMediaType(mediaType);
     }
 
     @Override
     public List<Track> getTracksByYear(Integer year) {
-        return List.of();
+        return trackDAO.findAllByRegisterDateYear(year);
     }
 
     @Override
-    //Need to be fixed
+    //TODO: verify JPA creates query. If not, will have to write join
     public List<Track> getTracksByArtistName(String artistName) {
-        return List.of();
+        return trackDAO.findAllByArtistName(artistName);
     }
 
     @Override
     public List<Track> getTracksByDuration(String strategy, Integer duration) {
-        return List.of();
+        return trackDAO.findAllByDurationSec(duration);
     }
 
     @Override
     public List<Track> getTracksByDuration(Integer duration1, Integer duration2) {
-        return List.of();
+        return trackDAO.findAllByDurationSecBetween(duration1, duration2);
     }
 
     @Override
     public boolean updateTrack(int trackId, Track track) {
-        return false;
+
+        trackDAO.save(track);
+        return true;
     }
 
     @Override
     public void deleteTrackById(Integer id) {
+        trackDAO.deleteById(id);
 
     }
 
