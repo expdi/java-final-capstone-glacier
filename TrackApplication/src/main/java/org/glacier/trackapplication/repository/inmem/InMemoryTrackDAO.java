@@ -38,15 +38,10 @@ public class InMemoryTrackDAO implements TrackDAO {
     }
 
     @Override
-    //TODO: Needs to be fixed
+
     public List<Track> getTracksByMediaType(String mediaType) {
-//        boolean isValidType = EnumUtils.isValidEnumIgnoreCase(ApprovedAudioFormats.class, mediaType);
-//        if (isValidType) {
-//            return tracksMap.values().stream()
-//                    .filter(a -> a.getAudioType() == ApprovedAudioFormats.valueOf(mediaType))
-//                    .collect(Collectors.toList());
-//        }
-        return null;
+        return tracksMap.values().stream().filter(a -> Objects.equals(a.getAudioType(), mediaType)).collect(Collectors.toList());
+
     }
 
     @Override
@@ -59,12 +54,12 @@ public class InMemoryTrackDAO implements TrackDAO {
     @Override
     //TODO: Need to fix as well
     public List<Track> getTracksByArtistName(String artistName) {
-//        return tracksMap.values()
-//                .stream()
-//                .filter(c -> c.getArtists().stream()
-//                        .anyMatch(t -> t.containsValue(artistName)))
-//                .collect(Collectors.toList());
-        return List.of();
+        return tracksMap.values()
+                .stream()
+                .filter(c -> c.getArtists().stream()
+                        .anyMatch(t -> t.getTracks().contains(artistName)))
+                .collect(Collectors.toList());
+
     }
 
     @Override
