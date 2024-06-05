@@ -24,4 +24,5 @@ public interface TracksJPA extends JpaRepository<Track, Integer> {
     List<Track> findAllByDurationSec(Integer duration);
 
     List<Track> findAllByDurationSecBetween(Integer duration1, Integer duration2);
+
 }
