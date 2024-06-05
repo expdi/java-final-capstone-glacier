@@ -1,6 +1,5 @@
 package org.edwinsoto.trackapplication.dao;
 
-//import org.apache.tomcat.util.codec.binary.Base64;
 import org.edwinsoto.trackapplication.model.Track;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -18,10 +17,10 @@ public class NetworkPricingDAO implements PricingDAO {
 
     private String pricingURL;
 
-    @Value("${env.user.name}")
+    @Value("${env.user.regularuser}")
     private String userName;
 
-    @Value("${env.user.password}")
+    @Value("${env.user.regularuserpassword}")
     private String password;
 
     public NetworkPricingDAO() {
