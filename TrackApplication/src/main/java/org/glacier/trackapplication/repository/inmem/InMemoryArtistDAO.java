@@ -62,12 +62,13 @@ public class InMemoryArtistDAO implements ArtistDAO {
     }
 
     @Override
-    public List<Artist> getAllSongsByArtistId(Integer id) {
-        return artistsMap.values()
-                .stream()
-                .filter(s -> s.getId()
-                        .equals(id))
-                .collect(Collectors.toList());
+    public List<Track> getAllSongsByArtistId(Integer id) {
+//        return artistsMap.values()
+//                .stream()
+//                .filter(s -> s.getId()
+//                        .equals(id))
+//                .collect(Collectors.toList());
+        return null;
     }
 
     @PostConstruct

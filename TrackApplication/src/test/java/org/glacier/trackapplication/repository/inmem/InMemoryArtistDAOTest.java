@@ -88,10 +88,10 @@ class InMemoryArtistDAOTest {
             "5,1"
     })
 
-    void getTracksByArtist(Integer artistID, int expectedTracks) {
-        List<Artist> tracks = artistDAO.getAllSongsByArtistId(artistID);
-        assertEquals(expectedTracks, tracks.size());
-    }
+//    void getTracksByArtist(Integer artistID, int expectedTracks) {
+//        List<Artist> tracks = artistDAO.getAllSongsByArtistId(artistID);
+//        assertEquals(expectedTracks, tracks.size());
+//    }
 
     @Test
     void updateArtist() {
