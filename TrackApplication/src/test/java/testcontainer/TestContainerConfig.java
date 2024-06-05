@@ -22,7 +22,7 @@ public class TestContainerConfig {
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16.0")
             .withDatabaseName("musicdb")
             .withUsername("postgres")
-            .withPassword("pass")
+            .withPassword("password")
             .withInitScript("data/data.sql");
 
     @DynamicPropertySource
