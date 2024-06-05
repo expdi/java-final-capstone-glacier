@@ -46,7 +46,7 @@ public class Track {
     private LocalDate modifiedDate;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "tracks", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tracks", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Artist> artists;
 
     @Transient

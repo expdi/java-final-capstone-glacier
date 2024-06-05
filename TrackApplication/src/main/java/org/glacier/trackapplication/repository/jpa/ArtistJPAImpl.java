@@ -41,8 +41,12 @@ public class ArtistJPAImpl implements ArtistDAO {
 
     @Override
     public boolean updateArtist(Integer id, Artist artist) {
-       jpaDAO.save(artist);
-       return true;
+
+        if(jpaDAO.existsById(id)) {
+            jpaDAO.save(artist);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -58,6 +62,5 @@ public class ArtistJPAImpl implements ArtistDAO {
     @Override
     public List<Track> getAllSongsByArtistId(Integer id) {
           return jpaDAO.findTracksByArtistId(id);
-
     }
 }

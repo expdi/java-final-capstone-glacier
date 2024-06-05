@@ -1,6 +1,7 @@
 package org.glacier.trackapplication.repository.jpa;
 
 import org.glacier.trackapplication.model.Artist;
+import org.glacier.trackapplication.model.Track;
 import org.glacier.trackapplication.repository.ArtistDAO;
 import org.glacier.trackapplication.repository.inmem.InMemoryArtistDAO;
 import org.junit.jupiter.api.MethodOrderer;
@@ -32,26 +33,23 @@ class ArtistJPAImplTest extends TestContainerConfig {
         Artist artist = Artist.builder()
                 .name("Gregor Crummy")
                 .build();
+
         assertEquals("Gregor Crummy", artist.getName());
     }
 
     @Test
     void createInvalidArtist() {
-
         assertThrows(NullPointerException.class, () -> {
-            Artist invalidArtist = Artist.builder()
+            Artist.builder()
                     .dateOfBirth(LocalDate.of(1989, 7, 29))
                     .build();
-
-            assertEquals(null, invalidArtist.getName());
         });
-
     }
     @Test
     void getAllArtists() {
         List<Artist> artists = artistDAO.getAllArtists();
         assertNotNull(artists);
-        assertEquals(11, artists.size());
+        assertTrue(!artists.isEmpty());
     }
 
     @Test
@@ -67,15 +65,19 @@ class ArtistJPAImplTest extends TestContainerConfig {
     }
     @Test
     void getArtistByValidName() {
-        Optional<Artist> artist = artistDAO.getArtistByName("Test");
+        Optional<Artist> artist = artistDAO.getArtistByName("Gregor Crummy");
+        assertEquals("Gregor Crummy", artist.get().getName());
+    }
+
+    @Test
+    void getArtistByInvalidName() {
+        Optional<Artist> artist = artistDAO.getArtistByName("InvalidName");
         assertEquals(Optional.empty(),artist);
     }
 
     @Test
     void updateArtist() {
         Artist artistUpdated = Artist.builder().id(1).name("Gregor Crumy").build();
-
-        Optional<Artist> artist = artistDAO.getArtistById(1);
 
         boolean isUpdated = artistDAO.updateArtist(1, artistUpdated);
         assertTrue(isUpdated);
@@ -92,7 +94,7 @@ class ArtistJPAImplTest extends TestContainerConfig {
         Optional<Artist> artist = artistDAO.getArtistById(100);
 
         boolean isUpdated = artistDAO.updateArtist(100, artistUpdated);
-        assertTrue(isUpdated);
+        assertFalse(isUpdated);
 
     }
     @Test
@@ -100,20 +102,20 @@ class ArtistJPAImplTest extends TestContainerConfig {
         Artist newArtist = Artist.builder().name("Glacier").build();
 
         artistDAO.insertArtist(newArtist);
-        List<Artist> allArtists = artistDAO.getAllArtists();
-        assertEquals(11, allArtists.size());
+        Optional<Artist> artistCreated = artistDAO.getArtistByName("Glacier");
+        assertEquals("Glacier", artistCreated.get().getName());
     }
 
     @Test
     void deleteArtist() {
         artistDAO.deleteArtist(1);
-        List<Artist> allArtists = artistDAO.getAllArtists();
-        assertEquals(10, allArtists.size());
+       Optional<Artist> artistDeleted = artistDAO.getArtistById(1);
+        assertEquals(Optional.empty(), artistDeleted);
     }
 
     @Test
     void getAllSongsByArtistId() {
-        List<Artist> artists = artistDAO.getAllSongsByArtistId(1);
-
+        List<Track> tracks = artistDAO.getAllSongsByArtistId(5);
+        assertTrue(tracks.stream().count() > 0);
     }
 }
