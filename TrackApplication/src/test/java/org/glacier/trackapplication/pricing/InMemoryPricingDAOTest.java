@@ -18,7 +18,7 @@ class InMemoryPricingDAOTest {
     private InMemoryPricingDAO pricingDAO;
 
     @Test
-    @Disabled
+    @Disabled("To Be Continued")
     void addPrice() {
         Track track = Track.builder().id(1).title("Hello").build();
         pricingDAO.addPrice(track);
