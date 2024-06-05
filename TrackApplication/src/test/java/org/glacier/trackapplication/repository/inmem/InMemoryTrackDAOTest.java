@@ -88,7 +88,7 @@ class InMemoryTrackDAOTest {
         assertEquals(0, tracksList.size());
     }
 
-    @Disabled("To be fixed")
+
     @ParameterizedTest
     @CsvSource(value = {
             "Hozier,1",

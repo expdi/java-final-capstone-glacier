@@ -57,7 +57,7 @@ public class ArtistJPAImpl implements ArtistDAO {
 
     @Override
     public List<Track> getAllSongsByArtistId(Integer id) {
-        return jpaDAO.findTracksByArtistId(id);
+          return jpaDAO.findTracksByArtistId(id);
 
     }
 }

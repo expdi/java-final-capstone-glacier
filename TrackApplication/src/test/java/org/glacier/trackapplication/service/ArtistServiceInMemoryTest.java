@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import testcontainer.TestContainerConfig;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles({"inmem","pricing_inmem"})
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class ArtistServiceInMemoryTest {
     @Autowired
     private ArtistService artistService;
@@ -34,7 +36,6 @@ public class ArtistServiceInMemoryTest {
     }
 
     @Test
-    @Order(2)
     void getAllArtists() {
         List<Artist> artistsList = artistService.getAllArtists();
         assertEquals(6, artistsList.size());
@@ -77,6 +78,7 @@ public class ArtistServiceInMemoryTest {
             "3,1"
     })
     void getAllSongsByArtistId(Integer id, Integer expectedSize){
+
         assertEquals(expectedSize, artistService.getAllSongsByArtistId(id).size());
     }
 }
