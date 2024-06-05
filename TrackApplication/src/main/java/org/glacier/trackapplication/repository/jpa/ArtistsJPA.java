@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 @Profile({"jpa", "tc"})
 public interface ArtistsJPA extends JpaRepository<Artist, Integer>{
-    Optional<Artist> findArtistByName(String name);
+    Optional<Artist> findByName (String name);
 
     @Query("SELECT a.tracks from Artist a where a.id = ?1 ")
     List<Track> findTracksByArtistId(Integer id);

@@ -36,7 +36,7 @@ public class TrackJPAImpl implements TrackDAO {
 
     @Override
     public List<Track> getTracksByMediaType(String mediaType) {
-        return trackDAO.findAllByMediaType(mediaType);
+        return trackDAO.findAllByAudioType(mediaType);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TrackJPAImpl implements TrackDAO {
     }
 
     @Override
-    //TODO: verify JPA creates query. If not, will have to write join
+
     public List<Track> getTracksByArtistName(String artistName) {
         return trackDAO.findAllByArtistName(artistName);
     }
