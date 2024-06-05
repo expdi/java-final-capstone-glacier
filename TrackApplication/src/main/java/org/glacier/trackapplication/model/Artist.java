@@ -34,7 +34,7 @@ public class Artist {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate modifiedDate;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "artist_track",
             joinColumns = @JoinColumn(name = "artist_id"),

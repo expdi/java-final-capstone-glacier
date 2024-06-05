@@ -1,5 +1,6 @@
 package org.glacier.trackapplication.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.context.annotation.Profile;
@@ -44,7 +45,8 @@ public class Track {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate modifiedDate;
 
-    @ManyToMany(mappedBy = "tracks")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "tracks", fetch = FetchType.LAZY)
     private List<Artist> artists;
 
     @Transient
