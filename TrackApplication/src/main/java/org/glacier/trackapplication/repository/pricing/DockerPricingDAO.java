@@ -1,6 +1,6 @@
-package org.glacier.trackapplication.dao.pricing;
+package org.glacier.trackapplication.repository.pricing;
 
-import org.glacier.trackapplication.dao.PricingDAO;
+import org.glacier.trackapplication.repository.PricingDAO;
 import org.glacier.trackapplication.model.Track;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
@@ -8,15 +8,15 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestClient;
 
 @Repository
-@Profile("pricing_local")
-public class NetworkPricingDAO implements PricingDAO {
+@Profile("pricing_docker")
+public class DockerPricingDAO implements PricingDAO {
 
     private RestClient restClient;
 
     private String pricingURL;
 
-    public NetworkPricingDAO() {
-        var baseUrl = "http://localhost:8081";
+    public DockerPricingDAO() {
+        var baseUrl = "http://pricing-api:8081";
         var endpoint = "api/v1/pricing";
         pricingURL = endpoint + "/id={id}";
 

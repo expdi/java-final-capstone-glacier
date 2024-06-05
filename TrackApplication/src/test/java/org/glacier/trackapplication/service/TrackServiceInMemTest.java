@@ -15,27 +15,26 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@ActiveProfiles("inmem")
+@ActiveProfiles({"inmem", "pricing_inmem"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class TrackServiceInMemTest {
-
     @Autowired
     private TrackService trackService;
 
     @Test
     void getAllTracks() {
-        List<Track> OLDTracks = trackService.getAllTracks();
-        assertNotNull(OLDTracks);
-        assertEquals(5, OLDTracks.size());
+        List<Track> tracks = trackService.getAllTracks();
+        assertNotNull(tracks);
+        assertEquals(5, tracks.size());
     }
 
     @Test
     void getTrackById() {
-        Track OLDTrack = trackService.getTrackById(1);
-        assertNotNull(OLDTrack);
-        assertEquals(1, OLDTrack.getId());
-        assertEquals("Too Sweet", OLDTrack.getTitle());
-        assertEquals("Unheard", OLDTrack.getAlbum());
+        Track track = trackService.getTrackById(1);
+        assertNotNull(track);
+        assertEquals(1, track.getId());
+        assertEquals("Too Sweet", track.getTitle());
+        assertEquals("Unheard", track.getAlbum());
     }
 
     @ParameterizedTest
@@ -46,8 +45,8 @@ class TrackServiceInMemTest {
             "WAV, 0"
     })
     void getTracksByMediaType(String audioType, int expectedTracks) {
-        List<Track> OLDTracks = trackService.getTracksByMediaType(audioType);
-        assertEquals(expectedTracks, OLDTracks.size());
+        List<Track> tracks = trackService.getTracksByMediaType(audioType);
+        assertEquals(expectedTracks, tracks.size());
     }
 
     @ParameterizedTest
@@ -59,8 +58,8 @@ class TrackServiceInMemTest {
             "Metro Boomin, 1"
     })
     void getTracksByArtist(String artist, int expectedTracks) {
-        List<Track> OLDTracks = trackService.getTracksByArtist(artist);
-        assertEquals(expectedTracks, OLDTracks.size());
+        List<Track> tracks = trackService.getTracksByArtist(artist);
+        assertEquals(expectedTracks, tracks.size());
     }
 
     @ParameterizedTest
@@ -70,8 +69,8 @@ class TrackServiceInMemTest {
             "1989, 0"
     })
     void getTracksByYear(Integer year, int expectedTracks) {
-        List<Track> OLDTracks = trackService.getTracksByYear(year);
-        assertEquals(expectedTracks, OLDTracks.size());
+        List<Track> tracks = trackService.getTracksByYear(year);
+        assertEquals(expectedTracks, tracks.size());
     }
 
     @ParameterizedTest
@@ -98,24 +97,24 @@ class TrackServiceInMemTest {
 
     @Test
     void insertTrack() {
-        Track newOLDTrack = Track.builder()
+        Track newTrack = Track.builder()
                 .title("Hip Hop")
-                .audioType(ApprovedAudioFormats.OGG)
+                .audioType(String.valueOf(ApprovedAudioFormats.OGG))
                 .build();
-        trackService.insertTrack(newOLDTrack);
-        List<Track> OLDTracks = trackService.getAllTracks();
-        assertEquals(6, OLDTracks.size());
-        assertEquals("Hip Hop", OLDTracks.get(5).getTitle());
+        trackService.insertTrack(newTrack);
+        List<Track> tracks = trackService.getAllTracks();
+        assertEquals(6, tracks.size());
+        assertEquals("Hip Hop", tracks.get(5).getTitle());
     }
 
     @Test
     void updateTrackById() {
-        Track OLDTrack = trackService.getTrackById(1);
-        OLDTrack.setTitle("Hip Hop");
+        Track track = trackService.getTrackById(1);
+        track.setTitle("Hip Hop");
 
-        trackService.updateTrackById(1, OLDTrack);
-        List<Track> OLDTracks = trackService.getAllTracks();
-        assertEquals("Hip Hop", OLDTracks.getFirst().getTitle());
+        trackService.updateTrackById(1, track);
+        List<Track> tracks = trackService.getAllTracks();
+        assertEquals("Hip Hop", tracks.getFirst().getTitle());
     }
 
     @Test

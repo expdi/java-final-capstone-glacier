@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.glacier.trackapplication.model.Artist;
+import org.glacier.trackapplication.model.Track;
 import org.glacier.trackapplication.service.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -49,42 +50,42 @@ public class ArtistController {
     @GetMapping("/id={id}")
     public ResponseEntity<?> getArtistById(@PathVariable("id") int id) {
         Optional<Artist> artist = service.getArtistById(id);
-        if (artist == null) {
+        if (artist.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(artist);
     }
 
-//    @Operation(summary = "Get Artist by name")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description="Found Artist By Name", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Artist.class))}),
-//            @ApiResponse(responseCode = "404", description="Artist name not found", content= @Content)
-//    })
-//    @GetMapping("/name={name}")
-//    public ResponseEntity<?> getArtistByName(@PathVariable("name") String name) {
-//        Optional<Artist> artist = service.getArtistByName(name);
-//        if (artist == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok().body(artist);
-//    }
+    @Operation(summary = "Get Artist by name")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description="Found Artist By Name", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "404", description="Artist name not found", content= @Content)
+    })
+    @GetMapping("/name={name}")
+    public ResponseEntity<?> getArtistByName(@PathVariable("name") String name) {
+        Optional<Artist> artist = service.getArtistByName(name);
+        if (artist.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(artist);
+    }
 
-//    @Operation(summary = "Get Tracks By Artist ID")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description="Found tracks by artist ID", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = OLDArtist.class))}),
-//            @ApiResponse(responseCode = "400", description= "Invalid artist ID", content= @Content),
-//            @ApiResponse(responseCode = "404", description="Found no tracks by artist ID", content= @Content)
-//    })
-//    @GetMapping("/tracks/id={id}")
-//    public ResponseEntity<?> getArtistByTrackId(@PathVariable("id") int id) {
-//        Artist artist = service.getArtistById(id);
-//        if (artist == null){
-//            return ResponseEntity.notFound().build();
-//        }
-//        List<Map<Integer,String>> tracksList = service.getAllSongsByArtistId(id);
-//
-//        return ResponseEntity.ok().body(tracksList);
-//    }
+    @Operation(summary = "Get Tracks By Artist ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description="Found tracks by artist ID", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Artist.class))}),
+            @ApiResponse(responseCode = "400", description= "Invalid artist ID", content= @Content),
+            @ApiResponse(responseCode = "404", description="Found no tracks by artist ID", content= @Content)
+    })
+    @GetMapping("/tracks/id={id}")
+    public ResponseEntity<?> getArtistByTrackId(@PathVariable("id") int id) {
+        Optional<Artist> artist = service.getArtistById(id);
+        if (artist == null){
+            return ResponseEntity.notFound().build();
+        }
+        List<Track> tracksList = service.getAllSongsByArtistId(id);
+
+        return ResponseEntity.ok().body(tracksList);
+    }
 
     // POST Mappings
     @Operation(summary = "Add new Artist")
@@ -120,7 +121,7 @@ public class ArtistController {
     })
     @DeleteMapping("/id={id}")
     public ResponseEntity<?> deleteArtist(@PathVariable("id") int id) {
-        if(service.getArtistById(id) == null){
+        if(service.getArtistById(id).isEmpty()){
             return ResponseEntity.notFound().build();
         }
         service.deleteArtist(id);

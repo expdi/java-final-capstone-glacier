@@ -1,31 +1,31 @@
-package org.edwinsoto.trackapplication.dao;
+package org.glacier.trackapplication.repository.inmem;
 
-import org.edwinsoto.trackapplication.model.Artist;
-import org.edwinsoto.trackapplication.service.TrackService;
+import org.glacier.trackapplication.repository.ArtistDAO;
+import org.glacier.trackapplication.model.Artist;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@ActiveProfiles("inmem")
+@SpringBootTest(classes = InMemoryArtistDAO.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class InMemoryArtistDAOTest {
 
     @Autowired
     private ArtistDAO artistDAO;
-    @Autowired
-    private TrackService trackService;
-
 
     @Test
-    void testCreateValidArtist() {
+    void createValidArtist() {
         Artist artist = Artist.builder()
                 .name("Fred Flinstone")
                 .build();
@@ -33,42 +33,50 @@ class InMemoryArtistDAOTest {
     }
 
     @Test
-    void testCreateInvalidArtist() {
-        Artist invalidArtist = Artist.builder()
-                .dateOfBirth(LocalDate.of(1989, 7, 29))
-                .build();
+    void createInvalidArtist() {
 
-        assertEquals(null, invalidArtist.getName());
+        assertThrows(NullPointerException.class, () -> {
+            Artist invalidArtist = Artist.builder()
+                    .dateOfBirth(LocalDate.of(1989, 7, 29))
+                    .build();
+
+            assertEquals(null, invalidArtist.getName());
+        });
+
+
+
     }
-
     @Test
-    void testGetAllArtists() {
+    void getAllArtists() {
         List<Artist> artists = artistDAO.getAllArtists();
         assertNotNull(artists);
         assertEquals(6, artists.size());
     }
 
-
-
     @Test
-    void testGetArtistByValidId() {
-        Artist artist = artistDAO.getArtistById(1);
+    void getArtistByValidId() {
+        Optional<Artist> artist = artistDAO.getArtistById(1);
         assertNotNull(artist);
-        assertEquals("Hozier", artist.getName());
+        assertEquals("Hozier", artist.get().getName());
     }
 
     @Test
-    void testGetArtistByInvalidId() {
-        Artist artist = artistDAO.getArtistById(-1);
-        assertNull(artist);
+    void getArtistByInvalidId() {
+        Optional<Artist> artist = artistDAO.getArtistById(-1);
+        assertEquals(Optional.empty(), artist);
     }
 
     @Test
-    void testGetArtistByValidName() {
-        Artist artist = artistDAO.getArtistByName("Hozier");
+    void getArtistByValidName() {
+        Optional<Artist> artist = artistDAO.getArtistByName("Hozier");
         assertNotNull(artist);
-        assertEquals("Hozier", artist.getName());
-        assertEquals(LocalDate.of(1990, 3, 17), artist.getDateOfBirth());
+        assertEquals("Hozier", artist.get().getName());
+        assertEquals(LocalDate.of(1990, 3, 17), artist.get().getDateOfBirth());
+    }
+    @Test
+    void getArtistByInvalidName() {
+        Optional<Artist> artist = artistDAO.getArtistByName("Edwin");
+        assertEquals(Optional.empty(),artist);
     }
 
     @ParameterizedTest
@@ -86,29 +94,24 @@ class InMemoryArtistDAOTest {
     }
 
     @Test
-    void testGetArtistByInvalidName() {
-        Artist artist = artistDAO.getArtistByName("Edwin");
-        assertNull(artist);
-    }
+    void updateArtist() {
+        Artist artistUpdated = Artist.builder().id(1).name("Not Hozier").build();
 
-    @Test
-    void testUpdateArtist() {
-        Artist artistUpdated = new Artist(1, "Not Hozier", LocalDate.of(1990, 3, 17), List.of("gospel", "folk"));
-        Artist artist = artistDAO.getArtistById(1);
+        Optional<Artist> artist = artistDAO.getArtistById(1);
 
         boolean isUpdated = artistDAO.updateArtist(1, artistUpdated);
         assertTrue(isUpdated);
 
-        Artist newArtist = artistDAO.getArtistById(1);
+        Optional<Artist> newArtist = artistDAO.getArtistById(1);
 
-        assertEquals("Not Hozier", newArtist.getName());
-        assertEquals(1, newArtist.getId());
+        assertEquals("Not Hozier", newArtist.get().getName());
+        assertEquals(1, newArtist.get().getId());
     }
 
     @Test
-    void testUpdateArtistInvalidId() {
-        Artist artistUpdated = new Artist(100, "Edwin", LocalDate.of(1990, 3, 17), List.of("gospel", "folk"));
-        Artist artist = artistDAO.getArtistById(100);
+    void updateArtistInvalidId() {
+        Artist artistUpdated = Artist.builder().id(100).name("Edwin").build();
+        Optional<Artist> artist = artistDAO.getArtistById(100);
 
         boolean isUpdated = artistDAO.updateArtist(100, artistUpdated);
         assertFalse(isUpdated);
@@ -116,7 +119,7 @@ class InMemoryArtistDAOTest {
     }
 
     @Test
-    void testInsertArtist() {
+    void insertArtist() {
         Artist newArtist = Artist.builder().name("Edwin").build();
 
         artistDAO.insertArtist(newArtist);
@@ -130,10 +133,8 @@ class InMemoryArtistDAOTest {
         List<Artist> allArtists = artistDAO.getAllArtists();
         assertEquals(5, allArtists.size());
     }
-//
-//    @Test
-//    void getAllTracksByArtist() {
-//    }
-//
 
+//    @Test
+//    void getAllSongsByArtistId() {
+//    }
 }

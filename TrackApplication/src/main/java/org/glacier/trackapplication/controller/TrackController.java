@@ -58,21 +58,21 @@ public class TrackController {
         }
     }
 
-//    @Operation(summary = "Get tracks by mediaType")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description="Found tracks by Media Type", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Track.class))}),
-//            @ApiResponse(responseCode = "204", description= "Found no tracks by Media Type", content= @Content),
-//            @ApiResponse(responseCode = "404", description="Media type not found", content= @Content)
-//    })
-//    @GetMapping("/media={mediaType}")
-//    public ResponseEntity<?> getTracksByMediaType(@PathVariable String mediaType) {
-//        List<Track> tracks = service.getTracksByMediaType(mediaType);
-//        if (tracks == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        return ResponseEntity.ok().body(tracks);
-//
-//    }
+    @Operation(summary = "Get tracks by mediaType")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description="Found tracks by Media Type", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Track.class))}),
+            @ApiResponse(responseCode = "204", description= "Found no tracks by Media Type", content= @Content),
+            @ApiResponse(responseCode = "404", description="Media type not found", content= @Content)
+    })
+    @GetMapping("/media={mediaType}")
+    public ResponseEntity<?> getTracksByMediaType(@PathVariable String mediaType) {
+        List<Track> tracks = service.getTracksByMediaType(mediaType);
+        if (tracks == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(tracks);
+
+    }
 
     @Operation(summary = "Get tracks by year")
     @ApiResponses(value = {
@@ -89,21 +89,21 @@ public class TrackController {
         return ResponseEntity.ok().body(tracks);
     }
 
-//    @Operation(summary = "Get tracks by artist name")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description="Found tracks by artist name", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Track.class))}),
-//            @ApiResponse(responseCode = "204", description= "Found no tracks by artist name", content= @Content),
-////            @ApiResponse(responseCode = "404", description=" not found", content= @Content)
-//    })
-//    @GetMapping("/artist={artistName}")
-//    public ResponseEntity<?> getTracksByArtist(@PathVariable String artistName) {
-//
-//        List<Track> tracks = service.getTracksByArtist(artistName);
-//        if (tracks.isEmpty()) {
-//            return ResponseEntity.noContent().build();
-//        }
-//        return ResponseEntity.ok().body(tracks);
-//    }
+    @Operation(summary = "Get tracks by artist name")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description="Found tracks by artist name", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Track.class))}),
+            @ApiResponse(responseCode = "204", description= "Found no tracks by artist name", content= @Content),
+//            @ApiResponse(responseCode = "404", description=" not found", content= @Content)
+    })
+    @GetMapping("/artist={artistName}")
+    public ResponseEntity<?> getTracksByArtist(@PathVariable String artistName) {
+
+        List<Track> tracks = service.getTracksByArtist(artistName);
+        if (tracks.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok().body(tracks);
+    }
 
     @Operation(summary = "Get tracks by strategy and duration in seconds. Strategy = [\"LESS_THAN\", \"GREATER_THAN\", \"EQUAL\"")
     @ApiResponses(value = {

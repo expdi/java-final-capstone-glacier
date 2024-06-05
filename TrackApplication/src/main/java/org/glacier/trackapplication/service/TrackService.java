@@ -1,7 +1,7 @@
 package org.glacier.trackapplication.service;
 
-import org.glacier.trackapplication.dao.ArtistDAO;
-import org.glacier.trackapplication.dao.TrackDAO;
+import org.glacier.trackapplication.repository.ArtistDAO;
+import org.glacier.trackapplication.repository.TrackDAO;
 import org.glacier.trackapplication.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,17 +34,17 @@ public class TrackService {
         return track.orElse(null);
     }
 
-//    public List<Track> getTracksByMediaType(String mediaType) {
-//        return repository.getTracksByMediaType(mediaType);
-//    }
+    public List<Track> getTracksByMediaType(String mediaType) {
+        return repository.getTracksByMediaType(mediaType);
+    }
 
     public List<Track> getTracksByYear(int year) {
         return repository.getTracksByYear(year);
     }
-//
-//    public List<Track> getTracksByArtist(String artistName) {
-//        return repository.getTracksByArtistName(artistName);
-//    }
+
+    public List<Track> getTracksByArtist(String artistName) {
+        return repository.getTracksByArtistName(artistName);
+    }
 
     public List<Track> getTracksByDuration(String strategy, Integer duration){
         return repository.getTracksByDuration(strategy, duration);

@@ -1,10 +1,13 @@
-package org.glacier.trackapplication.dao.inmem;
+package org.glacier.trackapplication.repository.inmem;
 
-import org.glacier.trackapplication.dao.TrackDAO;
+import jakarta.annotation.PostConstruct;
+import org.glacier.trackapplication.repository.TrackDAO;
+import org.glacier.trackapplication.model.Artist;
 import org.glacier.trackapplication.model.Track;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,7 +15,7 @@ import java.util.stream.Collectors;
 @Profile({"inmem"})
 public class InMemoryTrackDAO implements TrackDAO {
 
-    private Map<Integer, Track> tracksMap = new HashMap<>();
+    private Map<Integer, Track> tracksMap = new HashMap<Integer, Track>();
     private Integer nextId = 1;
 
 
@@ -34,16 +37,17 @@ public class InMemoryTrackDAO implements TrackDAO {
         return Optional.ofNullable(tracksMap.get(trackId));
     }
 
-//    @Override
-//    public List<Track> getTracksByMediaType(String mediaType) {
+    @Override
+    //TODO: Needs to be fixed
+    public List<Track> getTracksByMediaType(String mediaType) {
 //        boolean isValidType = EnumUtils.isValidEnumIgnoreCase(ApprovedAudioFormats.class, mediaType);
 //        if (isValidType) {
 //            return tracksMap.values().stream()
 //                    .filter(a -> a.getAudioType() == ApprovedAudioFormats.valueOf(mediaType))
 //                    .collect(Collectors.toList());
 //        }
-//        return null;
-//    }
+        return null;
+    }
 
     @Override
     public List<Track> getTracksByYear(Integer year) {
@@ -52,14 +56,16 @@ public class InMemoryTrackDAO implements TrackDAO {
                 .collect(Collectors.toList());
     }
 
-//    @Override
-//    public List<Track> getTracksByArtistName(String artistName) {
+    @Override
+    //TODO: Need to fix as well
+    public List<Track> getTracksByArtistName(String artistName) {
 //        return tracksMap.values()
 //                .stream()
-//                .filter(c -> c.getArtistList().stream()
+//                .filter(c -> c.getArtists().stream()
 //                        .anyMatch(t -> t.containsValue(artistName)))
 //                .collect(Collectors.toList());
-//    }
+        return List.of();
+    }
 
     @Override
     public List<Track> getTracksByDuration(String strategy, Integer duration) {
@@ -92,50 +98,29 @@ public class InMemoryTrackDAO implements TrackDAO {
 
 
 
-//    @PostConstruct
-//    public void init() {
-//        // Init list
-//        Track track1 = new Track(nextId++, "Too Sweet", "Unheard", LocalDate.of(2024, 3, 22), 251, ApprovedAudioFormats.MP3);
-//        track1.setArtistList(List.of(
-//                Map.of(
-//                        1, "Hozier"
-//                )
-//        ));
-//
-//
-//        Track track2 = new Track(nextId++, "Like That", "We Don't Trust You", LocalDate.of(2024, 3, 26), 267, ApprovedAudioFormats.MP3);
-//        track2.setArtistList(List.of(
-//                Map.of(
-//                        2, "Future",
-//                        3, "Metro Boomin"
-//                )
-//        ));
-//
-//        Track track3 = new Track(nextId++, "Beautiful Things", "Fireworks & Rollerblades", LocalDate.of(2024, 1, 18), 180, ApprovedAudioFormats.MP3);
-//        track3.setArtistList(List.of(
-//                Map.of(
-//                        4, "Benson Boone"
-//                )
-//        ));
-//        Track track4 = new Track(nextId++, "Lost Control", "I've Tried Everything but Therapy", LocalDate.of(2023, 6, 23), 210, ApprovedAudioFormats.MP3);
-//        track4.setArtistList(List.of(
-//                Map.of(
-//                        5, "Teddy Swims"
-//                )
-//        ));
-//        Track track5 = new Track(nextId++, "Texas Hole 'Em", "Cowboy Carter", LocalDate.of(2024, 2, 11), 239, ApprovedAudioFormats.MP3);
-//        track5.setArtistList(List.of(
-//                Map.of(
-//                        6, "Beyonce"
-//                )
-//        ));
-//        tracksMap.put(track1.getId(), track1);
-//        tracksMap.put(track2.getId(), track2);
-//        tracksMap.put(track3.getId(), track3);
-//        tracksMap.put(track4.getId(), track4);
-//        tracksMap.put(track5.getId(), track5);
+    @PostConstruct
+    public void init() {
+        Artist artist1 = Artist.builder().id(1).name("Hozier").build();
+        Artist artist2 = Artist.builder().id(2).name("Future").build();
+        Artist artist3 = Artist.builder().id(3).name("Metro Boomin").build();
+        Artist artist4 = Artist.builder().id(4).name("Benson Boone").build();
+        Artist artist5 = Artist.builder().id(5).name("Teddy Swim").build();
+        Artist artist6 = Artist.builder().id(6).name("Beyonce").build();
 
-//    }
+        Track track1 = Track.builder().id(1).title("Too Sweet").album("Unheard").issueDate(LocalDate.of(2024,3,22)).durationSec(251).audioType("MP3").artists(List.of(artist1)).build();
+        Track track2 = Track.builder().id(2).title("Like That").album("We Don't Trust You").issueDate(LocalDate.of(2024,3,26)).durationSec(267).audioType("MP3").artists(List.of(artist2,artist3)).build();
+        Track track3 = Track.builder().id(3).title("Beautiful Things").album("Fireworks & Rollerblades").issueDate(LocalDate.of(2024,1,18)).durationSec(180).audioType("MP3").artists(List.of(artist4)).build();
+        Track track4 = Track.builder().id(4).title("Lost Control").album("I've Tried Everything but Therapy").issueDate(LocalDate.of(2023,6,23)).durationSec(210).audioType("MP3").artists(List.of(artist5)).build();
+        Track track5 = Track.builder().id(5).title("Texas Hole 'Em").album("Cowboy Carter").issueDate(LocalDate.of(2024,2,11)).durationSec(239).audioType("MP3").artists(List.of(artist6)).build();
+
+
+        tracksMap.put(track1.getId(), track1);
+        tracksMap.put(track2.getId(), track2);
+        tracksMap.put(track3.getId(), track3);
+        tracksMap.put(track4.getId(), track4);
+        tracksMap.put(track5.getId(), track5);
+
+    }
 
 }
 

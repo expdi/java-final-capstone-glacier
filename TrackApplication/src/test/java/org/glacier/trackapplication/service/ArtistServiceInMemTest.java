@@ -7,15 +7,17 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles({"inmem","pricing_inmem"})
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class ArtistServiceInMemTest {
-
     @Autowired
     private ArtistService artistService;
 
@@ -23,7 +25,7 @@ class ArtistServiceInMemTest {
     void createArtist() {
         List<Artist> artistsList = artistService.getAllArtists();
         Artist artist = Artist.builder().name("Test").build();
-        artistService.createArtist(Artist);
+        artistService.createArtist(artist);
         artistsList = artistService.getAllArtists();
         assertEquals(7, artistsList.size());
     }
@@ -36,23 +38,23 @@ class ArtistServiceInMemTest {
 
     @Test
     void getArtistById() {
-        Artist artist = artistService.getArtistById(1);
-        assertEquals("Hozier", Artist.getName());
+        Optional<Artist> artist = artistService.getArtistById(1);
+        assertEquals("Hozier", artist.get().getName());
     }
 
     @Test
     void getArtistByName() {
-        Artist artist = artistService.getArtistByName("Beyonce");
-        assertEquals("Beyonce", Artist.getName());
+        Optional<Artist> artist = artistService.getArtistByName("Beyonce");
+        assertEquals("Beyonce", artist.get().getName());
     }
 
     @Test
     void updateArtist() {
-        Artist artist = artistService.getArtistById(1);
-        artist.setName("HozierTwo");
-        artistService.updateArtist(Artist.getId(), Artist);
-        Artist updatedArtist = artistService.getArtistById(1);
-        assertEquals("HozierTwo", updatedArtist.getName());
+        Optional<Artist> artist = artistService.getArtistById(1);
+        artist.get().setName("HozierTwo");
+        artistService.updateArtist(artist.get().getId(), artist.orElse(null));
+        Optional<Artist> updatedArtist = artistService.getArtistById(1);
+        assertEquals("HozierTwo", updatedArtist.get().getName());
     }
 
     @Test

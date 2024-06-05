@@ -1,7 +1,8 @@
 package org.glacier.trackapplication.service;
 
-import org.glacier.trackapplication.dao.ArtistDAO;
+import org.glacier.trackapplication.repository.ArtistDAO;
 import org.glacier.trackapplication.model.Artist;
+import org.glacier.trackapplication.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +31,9 @@ public class ArtistService {
         return repository.getArtistById(id);
     }
 
-//    public Optional<Artist> getArtistByName(String name) {
-//        return repository.getArtistByname(name);
-//    }
+    public Optional<Artist> getArtistByName(String name) {
+        return repository.getArtistByName(name);
+    }
 
     public boolean updateArtist(Integer id, Artist artist) {
         return repository.updateArtist(id, artist);
@@ -42,12 +43,10 @@ public class ArtistService {
         repository.deleteArtist(id);
     }
 
-//    public List<Map<Integer, String>> getAllSongsByArtistId(Integer id) {
-//        List<Artist> artistList = repository.getAllSongsByArtistId(id);
-//
-//        return artistList.getFirst().getArtistTracks().stream().toList();
-//
-//    }
+    public List<Track> getAllSongsByArtistId(int id) {
+        List<Artist> artistList = repository.getAllSongsByArtistId(id);
 
+        return artistList.getFirst().getTracks().stream().toList();
+    }
 
 }

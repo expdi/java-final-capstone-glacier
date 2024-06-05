@@ -1,18 +1,22 @@
-package org.edwinsoto.trackapplication.dao;
+package org.glacier.trackapplication.repository.inmem;
 
-import org.edwinsoto.trackapplication.model.Track;
+import org.glacier.trackapplication.repository.TrackDAO;
+import org.glacier.trackapplication.model.Track;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@ActiveProfiles("inmem")
+@SpringBootTest(classes = InMemoryTrackDAO.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class InMemoryTrackDAOTest {
 
@@ -36,15 +40,15 @@ class InMemoryTrackDAOTest {
 
     @Test
     void testGetTrackByValidId() {
-        Track track = trackDAO.getTrackById(1);
+        Optional<Track> track = trackDAO.getTrackById(1);
         assertNotNull(track);
-        assertEquals("Too Sweet", track.getTitle());
+        assertEquals("Too Sweet", track.get().getTitle());
     }
 
     @Test
     void testGetTrackByInvalidId() {
-        Track track = trackDAO.getTrackById(-1);
-        assertNull(track);
+        Optional<Track> track = trackDAO.getTrackById(-1);
+        assertEquals(Optional.empty(), track);
     }
 
     @ParameterizedTest
@@ -119,16 +123,16 @@ class InMemoryTrackDAOTest {
 
     @Test
     void updateTrack() {
-        Track track = trackDAO.getTrackById(1);
-        track.setTitle("Bop It");
-        track.setAlbum("Hip Hop Anonymous");
+        Optional<Track> track = trackDAO.getTrackById(1);
+        track.get().setTitle("Bop It");
+        track.get().setAlbum("Hip Hop Anonymous");
 
-        boolean isUpdated = trackDAO.updateTrack(1, track);
+        boolean isUpdated = trackDAO.updateTrack(1, track.orElse(null));
         assertTrue(isUpdated);
 
-        Track updatedTrack = trackDAO.getTrackById(1);
-        assertEquals("Bop It", updatedTrack.getTitle());
-        assertEquals("Hip Hop Anonymous", updatedTrack.getAlbum());
+        Optional<Track> updatedTrack = trackDAO.getTrackById(1);
+        assertEquals("Bop It", updatedTrack.get().getTitle());
+        assertEquals("Hip Hop Anonymous", updatedTrack.get().getAlbum());
     }
 
     @Test
@@ -150,6 +154,5 @@ class InMemoryTrackDAOTest {
         tracksList = trackDAO.getAllTracks();
         assertEquals(4, tracksList.size());
     }
-
 
 }

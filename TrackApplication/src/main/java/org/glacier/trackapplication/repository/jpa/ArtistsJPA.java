@@ -1,4 +1,4 @@
-package org.glacier.trackapplication.dao.jpa;
+package org.glacier.trackapplication.repository.jpa;
 
 import org.glacier.trackapplication.model.Artist;
 import org.springframework.context.annotation.Profile;

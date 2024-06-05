@@ -1,4 +1,4 @@
-package org.glacier.trackapplication.dao;
+package org.glacier.trackapplication.repository;
 
 import org.glacier.trackapplication.model.Track;
 

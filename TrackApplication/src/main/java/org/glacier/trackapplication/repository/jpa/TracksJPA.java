@@ -1,4 +1,4 @@
-package org.glacier.trackapplication.dao.jpa;
+package org.glacier.trackapplication.repository.jpa;
 
 import org.glacier.trackapplication.model.Track;
 import org.springframework.context.annotation.Profile;

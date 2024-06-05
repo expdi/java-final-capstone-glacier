@@ -1,6 +1,6 @@
-package org.glacier.trackapplication.dao.jpa;
+package org.glacier.trackapplication.repository.jpa;
 
-import org.glacier.trackapplication.dao.TrackDAO;
+import org.glacier.trackapplication.repository.TrackDAO;
 import org.glacier.trackapplication.model.Track;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -34,20 +34,22 @@ public class TrackJPAImpl implements TrackDAO {
         return trackDAO.findById(trackId);
     }
 
-//    @Override
-//    public List<Track> getTracksByMediaType(String mediaType) {
-//        return List.of();
-//    }
+    @Override
+    //TODO: Need to be fixed
+    public List<Track> getTracksByMediaType(String mediaType) {
+        return List.of();
+    }
 
     @Override
     public List<Track> getTracksByYear(Integer year) {
         return List.of();
     }
 
-//    @Override
-//    public List<Track> getTracksByArtistName(String artistName) {
-//        return List.of();
-//    }
+    @Override
+    //Need to be fixed
+    public List<Track> getTracksByArtistName(String artistName) {
+        return List.of();
+    }
 
     @Override
     public List<Track> getTracksByDuration(String strategy, Integer duration) {

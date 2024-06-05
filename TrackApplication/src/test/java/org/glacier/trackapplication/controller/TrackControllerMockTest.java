@@ -1,7 +1,7 @@
 package org.glacier.trackapplication.controller;
 
+import org.glacier.trackapplication.model.Track;
 import org.glacier.trackapplication.service.TrackService;
-import org.glacier.trackapplication.model.ApprovedAudioFormats;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,23 +11,23 @@ import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class TrackControllerInMemTest {
-
+class TrackControllerMockTest {
     @InjectMocks
     private TrackController trackController;
 
     @Mock
     private TrackService trackService;
 
-    List<OLDTrack> tracksList = List.of(
-            new OLDTrack(1, "Too Sweet", "Unheard", LocalDate.of(2024,3, 22), 251, ApprovedAudioFormats.MP3),
-            new OLDTrack(2, "Like That", "We Don't Trust You", LocalDate.of(2024,3, 26), 267, ApprovedAudioFormats.MP3)
-    );
+    Track track1 = Track.builder().id(1).title("Too Sweet").album("Unheard").issueDate(LocalDate.of(2024,3,22)).durationSec(251).audioType("MP3").build();
+    Track track2 = Track.builder().id(2).title("Like That").album("We Don't Trust You").issueDate(LocalDate.of(2024,3,26)).durationSec(267).audioType("MP3").build();
+
+    List<Track> tracksList =List.of(track1, track2);
 
     @Test
     void getAllTracks() {
@@ -117,31 +117,31 @@ class TrackControllerInMemTest {
     }
     @Test
     void addTrack() {
-        OLDTrack newOLDTrack = OLDTrack.builder()
+        Track newTrack = Track.builder()
                 .title("Hello Song")
                 .build();
-        when(trackService.insertTrack(newOLDTrack)).thenReturn(3);
-        ResponseEntity<?> response = trackController.addTrack(newOLDTrack);
+        when(trackService.insertTrack(newTrack)).thenReturn(3);
+        ResponseEntity<?> response = trackController.addTrack(newTrack);
         assertTrue(response.getStatusCode().is2xxSuccessful());
         assertEquals(3, response.getBody());
     }
 
     @Test
     void updateTrackById() {
-        OLDTrack OLDTrack = tracksList.get(0);
-        OLDTrack.setTitle("Hello Song");
+        Track track = tracksList.get(0);
+        track.setTitle("Hello Song");
 
-        when(trackService.updateTrackById(1, OLDTrack)).thenReturn(true);
+        when(trackService.updateTrackById(1, track)).thenReturn(true);
 
-        ResponseEntity<?> response = trackController.updateTrackById(1, OLDTrack);
+        ResponseEntity<?> response = trackController.updateTrackById(1, track);
         assertTrue(response.getStatusCode().is2xxSuccessful());
     }
 
     @Test
     void updatedTrackByInvalidId(){
-        OLDTrack OLDTrack = tracksList.get(0);
-        OLDTrack.setId(100);
-        OLDTrack.setTitle("Hello Song");
+        Track track = tracksList.get(0);
+        track.setId(100);
+        track.setTitle("Hello Song");
         when(trackService.getTrackById(100)).thenReturn(null);
 
         ResponseEntity<?> response = trackController.getTrackById(100);

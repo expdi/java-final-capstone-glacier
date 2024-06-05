@@ -1,4 +1,4 @@
-package org.glacier.trackapplication.dao;
+package org.glacier.trackapplication.repository;
 
 import org.glacier.trackapplication.model.Artist;
 
@@ -13,7 +13,7 @@ public interface ArtistDAO {
 
     Optional<Artist> getArtistById(Integer id);
 
-    //Optional<Artist> getArtistByName(String name);
+    Optional<Artist> getArtistByName(String name);
 
     boolean updateArtist(Integer id, Artist artist);
 
@@ -21,5 +21,5 @@ public interface ArtistDAO {
 
     void deleteArtist(Integer id);
 
-    //List<Artist> getAllSongsByArtistId(Integer id);
+    List<Artist> getAllSongsByArtistId(Integer id);
 }

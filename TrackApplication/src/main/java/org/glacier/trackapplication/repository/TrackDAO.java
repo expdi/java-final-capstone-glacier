@@ -1,4 +1,4 @@
-package org.glacier.trackapplication.dao;
+package org.glacier.trackapplication.repository;
 
 import org.glacier.trackapplication.model.Track;
 
@@ -14,11 +14,11 @@ public interface TrackDAO {
 
     Optional<Track> getTrackById(int trackId);
 
-    //List<Track> getTracksByMediaType(String mediaType);
+    List<Track> getTracksByMediaType(String mediaType);
 
     List<Track> getTracksByYear(Integer year);
 
-    //List<Track> getTracksByArtistName(String artistName);
+    List<Track> getTracksByArtistName(String artistName);
 
     List<Track> getTracksByDuration(String strategy, Integer duration);
 

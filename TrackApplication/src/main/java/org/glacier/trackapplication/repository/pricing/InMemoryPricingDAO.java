@@ -1,6 +1,6 @@
-package org.glacier.trackapplication.dao.pricing;
+package org.glacier.trackapplication.repository.pricing;
 
-import org.glacier.trackapplication.dao.PricingDAO;
+import org.glacier.trackapplication.repository.PricingDAO;
 import org.glacier.trackapplication.model.Track;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

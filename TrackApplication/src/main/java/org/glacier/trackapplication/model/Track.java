@@ -44,8 +44,8 @@ public class Track {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate modifiedDate;
 
-    //@ManyToMany(mappedBy = "tracks")
-    //private List<Artist> artists;
+    @ManyToMany(mappedBy = "tracks")
+    private List<Artist> artists;
 
     @Transient
     private Integer price;
