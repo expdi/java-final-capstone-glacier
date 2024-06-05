@@ -1,6 +1,7 @@
 package org.glacier.trackapplication.repository;
 
 import org.glacier.trackapplication.model.Artist;
+import org.glacier.trackapplication.model.Track;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,5 +22,5 @@ public interface ArtistDAO {
 
     void deleteArtist(Integer id);
 
-    List<Artist> getAllSongsByArtistId(Integer id);
+    List<Track> getAllSongsByArtistId(Integer id);
 }

@@ -44,9 +44,8 @@ public class ArtistService {
     }
 
     public List<Track> getAllSongsByArtistId(int id) {
-        List<Artist> artistList = repository.getAllSongsByArtistId(id);
-
-        return artistList.getFirst().getTracks().stream().toList();
+        return repository.getAllSongsByArtistId(id);
+//        return artistList.getFirst().getTracks().stream().toList();
     }
 
 }

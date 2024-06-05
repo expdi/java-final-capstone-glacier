@@ -1,5 +1,6 @@
 package org.glacier.trackapplication.repository.inmem;
 
+import org.glacier.trackapplication.model.Track;
 import org.glacier.trackapplication.repository.ArtistDAO;
 import org.glacier.trackapplication.model.Artist;
 import org.junit.jupiter.api.Test;
@@ -89,7 +90,7 @@ class InMemoryArtistDAOTest {
     })
 
     void getTracksByArtist(Integer artistID, int expectedTracks) {
-        List<Artist> tracks = artistDAO.getAllSongsByArtistId(artistID);
+        List<Track> tracks = artistDAO.getAllSongsByArtistId(artistID);
         assertEquals(expectedTracks, tracks.size());
     }
 
