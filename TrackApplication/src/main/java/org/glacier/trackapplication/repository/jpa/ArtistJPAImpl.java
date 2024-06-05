@@ -1,6 +1,7 @@
 package org.glacier.trackapplication.repository.jpa;
 
 
+import org.glacier.trackapplication.model.Track;
 import org.glacier.trackapplication.repository.ArtistDAO;
 import org.glacier.trackapplication.model.Artist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class ArtistJPAImpl implements ArtistDAO {
 
     @Override
     public Optional<Artist> getArtistByName(String name) {
-        return Optional.empty();
+        return jpaDAO.findByName(name);
     }
 
     @Override
@@ -55,8 +56,8 @@ public class ArtistJPAImpl implements ArtistDAO {
     }
 
     @Override
-    public List<Artist> getAllSongsByArtistId(Integer id) {
+    public List<Track> getAllSongsByArtistId(Integer id) {
+        return jpaDAO.findTracksByArtistId(id);
 
-        return List.of();
     }
 }
