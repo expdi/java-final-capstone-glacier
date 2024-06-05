@@ -1,3 +1,44 @@
+create table if not exists artists
+(
+    id            serial
+        primary key,
+    date_of_birth date,
+    modified_date date,
+    name          varchar(255),
+    register_date date
+);
+
+alter table artists
+    owner to postgres;
+
+create table if not exists tracks
+(
+    id            serial
+        primary key,
+    album         varchar(255),
+    audio_type    varchar(255),
+    duration_sec  integer,
+    genre         varchar(255),
+    issue_date    date,
+    modified_date date,
+    register_date date,
+    title         varchar(255)
+);
+alter table tracks
+    owner to postgres;
+
+create table if not exists artist_track
+(
+    artist_id integer not null
+        constraint fk4qvvbnaq3lac7fjusr0fs4w7f
+            references artists,
+    track_id  integer not null
+        constraint fklqi9yaa2b0vxaohl7v45atdke
+            references tracks
+);
+
+alter table artist_track
+    owner to postgres;
 
 insert into artists (name, register_date, modified_date, date_of_birth) values ('Misha Inderwick', '12/8/2020', '9/18/2007', '5/12/2011');
 insert into artists (name, register_date, modified_date, date_of_birth) values ('Gregor Crummy', '5/11/2006', '8/22/2020', '12/10/1960');
