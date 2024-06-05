@@ -46,6 +46,6 @@ public class JpaTrack {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate modifiedDate;
 
-    @ManyToMany(mappedBy = "tracks")
-    private List<JpaArtist> artists;
+//    @ManyToMany(mappedBy = "tracks")
+//    private List<JpaArtist> artists;
 }

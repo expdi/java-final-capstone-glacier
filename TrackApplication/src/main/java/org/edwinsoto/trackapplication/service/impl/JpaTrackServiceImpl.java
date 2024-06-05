@@ -51,7 +51,7 @@ public class JpaTrackServiceImpl implements JpaTrackService {
             Optional.ofNullable(jpaTrack.getDurationSec()).ifPresent(toBeUpdated::setDurationSec);
             Optional.ofNullable(jpaTrack.getAudioType()).ifPresent(toBeUpdated::setAudioType);
             Optional.ofNullable(jpaTrack.getGenre()).ifPresent(toBeUpdated::setGenre);
-            Optional.ofNullable(jpaTrack.getArtists()).ifPresent(toBeUpdated::setArtists);
+//            Optional.ofNullable(jpaTrack.getArtists()).ifPresent(toBeUpdated::setArtists);
 
             return jpaTrackRepository.save(toBeUpdated);
         }).orElseThrow(()-> new RuntimeException("Track does not exist"));
