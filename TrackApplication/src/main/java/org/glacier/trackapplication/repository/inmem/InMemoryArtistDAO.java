@@ -67,11 +67,7 @@ public class InMemoryArtistDAO implements ArtistDAO {
         Artist artist = artistsMap.get(id);
 
         return artist.getTracks();
-//        return artistsMap.values()
-//                .stream()
-//                .filter(s -> s.getId()
-//                        .equals(id))
-//                .collect(Collectors.toList());
+
     }
 
     @PostConstruct
