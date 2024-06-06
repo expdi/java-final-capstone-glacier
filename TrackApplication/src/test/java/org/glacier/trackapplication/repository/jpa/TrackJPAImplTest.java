@@ -1,5 +1,6 @@
 package org.glacier.trackapplication.repository.jpa;
 
+import jakarta.transaction.Transactional;
 import org.glacier.trackapplication.model.Track;
 import org.glacier.trackapplication.repository.TrackDAO;
 import org.junit.jupiter.api.MethodOrderer;
@@ -7,27 +8,31 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.test.context.junit4.SpringRunner;
 import testcontainer.TestContainerConfig;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ActiveProfiles({"jpa", "pricing_inmem"})
 @SpringBootTest
-@Testcontainers
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TrackJPAImplTest extends TestContainerConfig {
+
+
     @Autowired
     private TrackDAO trackDAO;
+
     @Test
+    @Transactional
     void testCreateValidTrack() {
         Track track = Track.builder()
                 .title("People")
@@ -83,10 +88,12 @@ class TrackJPAImplTest extends TestContainerConfig {
     }
 
     @Test
+    @Transactional
     void updateTrack() {
     }
 
     @Test
+    @Transactional
     void deleteTrackById() {
     }
 }
