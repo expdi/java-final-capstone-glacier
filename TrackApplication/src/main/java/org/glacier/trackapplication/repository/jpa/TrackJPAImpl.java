@@ -23,7 +23,7 @@ public class TrackJPAImpl implements TrackDAO {
     @Override
     public Integer createTrack(Track track) {
      trackDAO.save(track);
-     return 1;
+     return track.getId();
     }
 
     @Override
@@ -65,18 +65,15 @@ public class TrackJPAImpl implements TrackDAO {
     @Override
     public boolean updateTrack(int trackId, Track track) {
 
-        trackDAO.save(track);
-        return true;
+        if(trackDAO.existsById(trackId)) {
+            trackDAO.save(track);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void deleteTrackById(Integer id) {
         trackDAO.deleteById(id);
-
     }
-
-//    @Override
-//    public void init() {
-//
-//    }
 }

@@ -2,12 +2,18 @@ package org.glacier.trackapplication.service;
 
 import jakarta.transaction.Transactional;
 import org.glacier.trackapplication.model.Artist;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import testcontainer.TestContainerConfig;
 
 import java.util.List;
@@ -17,7 +23,31 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ActiveProfiles({"jpa", "pricing_inmem"})
 @SpringBootTest
-public class ArtistServiceJPATest extends TestContainerConfig {
+@Testcontainers(parallel = true)
+public class ArtistServiceJPATest {
+
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16.0")
+            .withDatabaseName("musicdb")
+            .withUsername("postgres")
+            .withPassword("password")
+            .withInitScript("data/data_schema.sql");
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
 
     @Autowired
     private ArtistService artistService;

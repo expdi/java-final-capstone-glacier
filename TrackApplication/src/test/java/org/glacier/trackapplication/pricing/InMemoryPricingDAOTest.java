@@ -14,14 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 class InMemoryPricingDAOTest {
 
-    @Autowired
-    private InMemoryPricingDAO pricingDAO;
-
-    @Test
-    @Disabled("To Be Continued")
-    void addPrice() {
-        Track track = Track.builder().id(1).title("Hello").build();
-        pricingDAO.addPrice(track);
-        assertTrue(track.getPrice()>0);
-    }
+//    @Autowired
+//    private InMemoryPricingDAO pricingDAO;
+//
+//    @Test
+//    @Disabled("To Be Continued")
+//    void addPrice() {
+//        Track track = Track.builder().id(1).title("Hello").build();
+//        pricingDAO.addPrice(track);
+//        assertTrue(track.getPrice()>0);
+//    }
 }
