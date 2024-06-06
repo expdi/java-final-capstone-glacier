@@ -1,30 +1,26 @@
 package org.glacier.trackapplication.service;
 
+import jakarta.transaction.Transactional;
 import org.glacier.trackapplication.model.ApprovedAudioFormats;
 import org.glacier.trackapplication.model.Track;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import testcontainer.TestContainerConfig;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ActiveProfiles({"jpa", "pricing_inmem"})
 @SpringBootTest
-@Testcontainers
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TrackServiceJPATest extends TestContainerConfig {
+
+
     @Autowired
     private TrackService trackService;
 
@@ -102,8 +98,8 @@ public class TrackServiceJPATest extends TestContainerConfig {
         List<Track> tracksList = trackService.getTracksByDuration(durationLow, durationHigh);
         assertEquals(expectedTracks, tracksList.size());
     }
-    @Disabled("This test fails due to teh incrementing")
     @Test
+    @Transactional
     void insertTrack() {
         Track newTrack = Track.builder()
                 .id(6)
@@ -118,6 +114,7 @@ public class TrackServiceJPATest extends TestContainerConfig {
     }
 
     @Test
+    @Transactional
     void updateTrackById() {
         Track track = trackService.getTrackById(1);
         track.setTitle("Hip Hop");
@@ -128,6 +125,7 @@ public class TrackServiceJPATest extends TestContainerConfig {
     }
 
     @Test
+    @Transactional
     void deleteTrackById() {
         List<Track> tracksList = trackService.getAllTracks();
         trackService.deleteTrackById(1);

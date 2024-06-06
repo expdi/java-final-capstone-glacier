@@ -1,17 +1,17 @@
 package org.glacier.trackapplication.repository.jpa;
 
+import jakarta.transaction.Transactional;
 import org.glacier.trackapplication.model.Artist;
 import org.glacier.trackapplication.model.Track;
 import org.glacier.trackapplication.repository.ArtistDAO;
-import org.glacier.trackapplication.repository.inmem.InMemoryArtistDAO;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.test.context.junit4.SpringRunner;
 import testcontainer.TestContainerConfig;
 
 import java.time.LocalDate;
@@ -22,13 +22,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles({"jpa", "pricing_inmem"})
 @SpringBootTest
-@Testcontainers
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@RunWith(SpringRunner.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ArtistJPAImplTest extends TestContainerConfig {
+
     @Autowired
     private ArtistDAO artistDAO;
+
     @Test
+    @Transactional
     void createValidArtist() {
         Artist artist = Artist.builder()
                 .name("Gregor Crummy")
@@ -38,6 +40,7 @@ class ArtistJPAImplTest extends TestContainerConfig {
     }
 
     @Test
+    @Transactional
     void createInvalidArtist() {
         assertThrows(NullPointerException.class, () -> {
             Artist.builder()
@@ -76,6 +79,7 @@ class ArtistJPAImplTest extends TestContainerConfig {
     }
 
     @Test
+    @Transactional
     void updateArtist() {
         Artist artistUpdated = Artist.builder().id(1).name("Gregor Crumy").build();
 
@@ -89,6 +93,7 @@ class ArtistJPAImplTest extends TestContainerConfig {
     }
 
     @Test
+    @Transactional
     void updateArtistInvalidId() {
         Artist artistUpdated = Artist.builder().id(100).name("Test").build();
         Optional<Artist> artist = artistDAO.getArtistById(100);
@@ -98,6 +103,7 @@ class ArtistJPAImplTest extends TestContainerConfig {
 
     }
     @Test
+    @Transactional
     void insertArtist() {
         Artist newArtist = Artist.builder().name("Glacier").build();
 
@@ -107,6 +113,7 @@ class ArtistJPAImplTest extends TestContainerConfig {
     }
 
     @Test
+    @Transactional
     void deleteArtist() {
         artistDAO.deleteArtist(1);
        Optional<Artist> artistDeleted = artistDAO.getArtistById(1);
