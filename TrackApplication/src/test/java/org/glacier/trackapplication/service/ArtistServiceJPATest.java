@@ -1,18 +1,13 @@
 package org.glacier.trackapplication.service;
 
+import jakarta.transaction.Transactional;
 import org.glacier.trackapplication.model.Artist;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import testcontainer.TestContainerConfig;
 
 import java.util.List;
@@ -22,14 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ActiveProfiles({"jpa", "pricing_inmem"})
 @SpringBootTest
-@Testcontainers
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ArtistServiceJPATest extends TestContainerConfig {
+
     @Autowired
     private ArtistService artistService;
 
     @Test
+    @Transactional
     void createArtist() {
         List<Artist> artistsList = artistService.getAllArtists();
         Artist artist = Artist.builder().name("Test").build();
@@ -39,7 +33,6 @@ public class ArtistServiceJPATest extends TestContainerConfig {
     }
 
     @Test
-    @Order(2)
     void getAllArtists() {
         List<Artist> artistsList = artistService.getAllArtists();
         assertEquals(10, artistsList.size());
@@ -58,6 +51,7 @@ public class ArtistServiceJPATest extends TestContainerConfig {
     }
 
     @Test
+    @Transactional
     void updateArtist() {
         Optional<Artist> artist = artistService.getArtistById(1);
         artist.get().setName("Penny Bewley");
@@ -67,6 +61,7 @@ public class ArtistServiceJPATest extends TestContainerConfig {
     }
 
     @Test
+    @Transactional
     void deleteArtist() {
         List<Artist> artistsList = artistService.getAllArtists();
         assertEquals(10, artistsList.size());

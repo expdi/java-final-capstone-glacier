@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import testcontainer.TestContainerConfig;
+//import testcontainer.TestContainerConfig;
 
 import java.util.List;
 import java.util.Optional;
