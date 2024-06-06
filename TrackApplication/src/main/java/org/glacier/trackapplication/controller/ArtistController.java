@@ -79,7 +79,7 @@ public class ArtistController {
     @GetMapping("/tracks/id={id}")
     public ResponseEntity<?> getArtistByTrackId(@PathVariable("id") int id) {
         Optional<Artist> artist = service.getArtistById(id);
-        if (artist == null){
+        if (artist.isEmpty()){
             return ResponseEntity.notFound().build();
         }
         List<Track> tracksList = service.getAllSongsByArtistId(id);

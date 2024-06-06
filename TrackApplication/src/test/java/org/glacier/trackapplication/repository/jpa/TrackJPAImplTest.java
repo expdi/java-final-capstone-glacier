@@ -3,31 +3,54 @@ package org.glacier.trackapplication.repository.jpa;
 import jakarta.transaction.Transactional;
 import org.glacier.trackapplication.model.Track;
 import org.glacier.trackapplication.repository.TrackDAO;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import testcontainer.TestContainerConfig;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles({"jpa", "pricing_inmem"})
 @SpringBootTest
-@RunWith(SpringRunner.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TrackJPAImplTest extends TestContainerConfig {
+@Testcontainers(parallel = true)
+//@RunWith(SpringRunner.class)
+//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class TrackJPAImplTest {//extends TestContainerConfig {
 
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16.0")
+            .withDatabaseName("musicdb")
+            .withUsername("postgres")
+            .withPassword("password")
+            .withInitScript("data/data_schema.sql");
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
 
     @Autowired
     private TrackDAO trackDAO;
@@ -142,16 +165,6 @@ class TrackJPAImplTest extends TestContainerConfig {
     void deleteTrackById() {
         trackDAO.deleteTrackById(10);
         Optional<Track> trackDeleted = trackDAO.getTrackById(10);
-
-        assertEquals(Optional.empty(), trackDeleted);
-
-    }
-
-    @Disabled
-    @Test
-    void deleteTrackByInvalidId() {
-        trackDAO.deleteTrackById(-1);
-        Optional<Track> trackDeleted = trackDAO.getTrackById(-1);
 
         assertEquals(Optional.empty(), trackDeleted);
 

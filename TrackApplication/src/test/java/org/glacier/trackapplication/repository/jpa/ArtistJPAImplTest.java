@@ -4,14 +4,18 @@ import jakarta.transaction.Transactional;
 import org.glacier.trackapplication.model.Artist;
 import org.glacier.trackapplication.model.Track;
 import org.glacier.trackapplication.repository.ArtistDAO;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import testcontainer.TestContainerConfig;
 
 import java.time.LocalDate;
@@ -22,9 +26,35 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles({"jpa", "pricing_inmem"})
 @SpringBootTest
-@RunWith(SpringRunner.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ArtistJPAImplTest extends TestContainerConfig {
+@Testcontainers(parallel = true)
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@DataJpaTest
+//@RunWith(SpringRunner.class)
+//@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class ArtistJPAImplTest {//extends TestContainerConfig {
+
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16.0")
+            .withDatabaseName("musicdb")
+            .withUsername("postgres")
+            .withPassword("password")
+            .withInitScript("data/data_schema.sql");
+
+    @BeforeAll
+    static void beforeAll() {
+        postgres.start();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        postgres.stop();
+    }
+
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", postgres::getJdbcUrl);
+        registry.add("spring.datasource.username", postgres::getUsername);
+        registry.add("spring.datasource.password", postgres::getPassword);
+    }
 
     @Autowired
     private ArtistDAO artistDAO;

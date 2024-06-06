@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Profile({"jpa", "tc"})
+@Profile({"jpa"})
 public class ArtistJPAImpl implements ArtistDAO {
 
     @Autowired
@@ -41,8 +41,8 @@ public class ArtistJPAImpl implements ArtistDAO {
 
     @Override
     public boolean updateArtist(Integer id, Artist artist) {
-
-        if(jpaDAO.existsById(id)) {
+        var artistFound = jpaDAO.findById(id);
+        if(artistFound.isPresent()) {
             jpaDAO.save(artist);
             return true;
         }

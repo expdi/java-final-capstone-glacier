@@ -23,7 +23,7 @@ public class TrackJPAImpl implements TrackDAO {
     @Override
     public Integer createTrack(Track track) {
      trackDAO.save(track);
-     return 1;
+     return track.getId();
     }
 
     @Override
