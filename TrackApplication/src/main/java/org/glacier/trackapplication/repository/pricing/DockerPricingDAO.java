@@ -17,10 +17,10 @@ public class DockerPricingDAO implements PricingDAO {
 
     private String pricingURL;
 
-    @Value("${env.user.name}")
+    @Value("superUser")
     private String userName;
 
-    @Value("${env.user.password}")
+    @Value("password1")
     private String password;
 
     public DockerPricingDAO() {
@@ -45,7 +45,7 @@ public class DockerPricingDAO implements PricingDAO {
         if (this.restClient != null) {
             return;
         }
-        var baseUrl = "http://localhost:8081";
+        var baseUrl = "http://pricing-api:8081";
         String valueToEncode = userName + ":" + password;
         String base64Creds = Base64.getEncoder().encodeToString(valueToEncode.getBytes());
         this.restClient = RestClient.builder()

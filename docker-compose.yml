@@ -12,6 +12,9 @@ services:
       - 8080:8080
     networks:
       - music-app
+    depends_on:
+      - music-db
+      - pricing-api
   pricing-api:
     # run first: mvn install -DskipTests
     build:
@@ -24,9 +27,9 @@ services:
       - music-app
     expose:
       - "8081"
-  db:
+  music-db:
     image: postgres
-    container_name: my-postgres-music
+    container_name: music-db
     ports:
       - "5434:5432"
     restart: unless-stopped
@@ -36,6 +39,8 @@ services:
       POSTGRES_PASSWORD: password
       PAGER: /usr/bin/less
       LESS: '-X -R -i'
+    networks:
+      - music-app
 networks:
   music-app:
-    external: false
+    driver: bridge
