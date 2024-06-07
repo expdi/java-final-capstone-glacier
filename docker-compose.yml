@@ -1,0 +1,46 @@
+services:
+  track-api:
+    # run first: mvn install -DskipTests
+    build:
+      context: TrackApplication
+    container_name: music-track-api
+    image: track-api
+    environment:
+      SPRING_USER_USERNAME: regularUser
+      SPRING_USER_PASSWORD: password2
+    ports:
+      - 8080:8080
+    networks:
+      - music-app
+    depends_on:
+      - music-db
+      - pricing-api
+  pricing-api:
+    # run first: mvn install -DskipTests
+    build:
+      context: PricingApplication
+    container_name: music-pricing-api
+    image: pricing-api
+    ports:
+      - 8081:8081
+    networks:
+      - music-app
+    expose:
+      - "8081"
+  music-db:
+    image: postgres
+    container_name: music-db
+    ports:
+      - "5434:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: musicdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      PAGER: /usr/bin/less
+      LESS: '-X -R -i'
+    networks:
+      - music-app
+networks:
+  music-app:
+    driver: bridge

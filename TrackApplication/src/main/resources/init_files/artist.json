@@ -1,0 +1,65 @@
+{
+  "artists": [
+    {
+      "id": 1,
+      "name": "Hozier",
+      "dateOfBirth": "1990-03-17",
+      "genre": [
+        "gospel",
+        "folk"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Future",
+      "dateOfBirth": "1983-11-20",
+      "genre": [
+        "Hip Hop",
+        "Trap",
+        "Mumble Rap"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Metro Boomin",
+      "dateOfBirth": "1993-09-16",
+      "genre": [
+        "Hip Hop",
+        "Trap"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Benson Boone",
+      "dateOfBirth": "2002-06-25",
+      "genre": [
+        "Pop Rock"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Teddy Swims",
+      "dateOfBirth": "1992-09-25",
+      "genre": [
+        "R&B",
+        "Soul",
+        "Country",
+        "Pop",
+        "Blue-eyed Soul"
+      ]
+    },
+    {
+      "id": 6
+      "name": "Beyonce",
+      "dateOfBirth": "1981-09-04",
+      "genre": [
+        "R&B",
+        "Pop",
+        "Hip Hop",
+        "Afrobeats",
+        "House",
+        "Country"
+      ]
+    }
+  ]
+}
